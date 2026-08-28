@@ -1,0 +1,82 @@
+[
+  {
+    "id": "INC-1001",
+    "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1002",
+    "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1003",
+    "text": "Several laptops are not powering on after the latest office power outage.",
+    "category": "Hardware",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1004",
+    "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1005",
+    "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1006",
+    "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1007",
+    "text": "External monitors connected through USB-C docks are displaying a black screen.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1008",
+    "text": "The company VPN disconnects repeatedly during active sessions.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1009",
+    "text": "Slack desktop application fails to launch and closes immediately.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT",
+    "status": "Open"
+  },
+  {
+    "id": "INC-1010",
+    "text": "A user's laptop keyboard has several keys that are no longer responding.",
+    "category": "Hardware",
+    "priority": "Low",
+    "department": "IT",
+    "status": "Open"
+  }
+]

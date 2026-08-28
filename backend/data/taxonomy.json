@@ -1,0 +1,52 @@
+{
+  "categories": {
+    "Account Access": {
+      "description": "Issues related to logging in, passwords, authentication, permissions, or access to company accounts and services.",
+      "examples": [
+        "Unable to log in",
+        "Password reset required",
+        "Cannot access GitHub",
+        "Two-factor authentication not working"
+      ]
+    },
+    "Hardware": {
+      "description": "Issues involving physical computer equipment or peripherals.",
+      "examples": [
+        "Laptop will not start",
+        "Keyboard not working",
+        "Monitor is blank",
+        "Mouse stopped responding"
+      ]
+    },
+    "Network": {
+      "description": "Issues related to internet connectivity, VPN, Wi-Fi, or access to network resources.",
+      "examples": [
+        "VPN is not connecting",
+        "Wi-Fi is unavailable",
+        "Internet is very slow",
+        "Cannot access internal server"
+      ]
+    },
+    "Software": {
+      "description": "Issues involving installed applications, software crashes, errors, updates, or application functionality.",
+      "examples": [
+        "Slack keeps crashing",
+        "Application will not open",
+        "Software update failed",
+        "Excel is freezing"
+      ]
+    }
+  },
+  "priorities": {
+    "Low": {
+      "description": "The issue has limited impact and the user can continue most of their work."
+    },
+    "Medium": {
+      "description": "The issue affects normal work but does not completely block critical activity."
+    },
+    "High": {
+      "description": "The issue significantly blocks the user's work or affects an important business function."
+    }
+  },
+  "department": "IT"
+}

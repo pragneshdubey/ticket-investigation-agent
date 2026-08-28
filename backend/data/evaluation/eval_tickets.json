@@ -1,0 +1,148 @@
+[
+  {
+    "id": "EVAL-001",
+    "type": "clean",
+    "text": "I cannot log into my company account even though my password is correct.",
+    "expected_category": "Account Access",
+    "expected_priority": "High",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-002",
+    "type": "clean",
+    "text": "My laptop does not turn on when I press the power button.",
+    "expected_category": "Hardware",
+    "expected_priority": "High",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-003",
+    "type": "clean",
+    "text": "The office Wi-Fi is extremely slow and websites take a long time to load.",
+    "expected_category": "Network",
+    "expected_priority": "Medium",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-004",
+    "type": "clean",
+    "text": "Slack closes immediately every time I try to open it.",
+    "expected_category": "Software",
+    "expected_priority": "Medium",
+    "expected_duplicate": true,
+    "duplicate_of": "INC-1009",
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-005",
+    "type": "messy",
+    "text": "cant login accnt keeps saying auth failed pls help",
+    "expected_category": "Account Access",
+    "expected_priority": "High",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-006",
+    "type": "messy",
+    "text": "wifi sooo slow since mornin cant load stuff properly",
+    "expected_category": "Network",
+    "expected_priority": "Medium",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-007",
+    "type": "messy",
+    "text": "my lapptop screen is black but its still making sound",
+    "expected_category": "Hardware",
+    "expected_priority": "High",
+    "expected_duplicate": false,
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-008",
+    "type": "ambiguous",
+    "text": "I cannot get into the system and I need it for work.",
+    "expected_category": null,
+    "expected_priority": null,
+    "expected_duplicate": false,
+    "expected_escalation": true,
+    "reason": "The ticket does not provide enough information to distinguish between account, network, or software access problems."
+  },
+  {
+    "id": "EVAL-009",
+    "type": "ambiguous",
+    "text": "Something stopped working after lunch and now I cannot continue my work.",
+    "expected_category": null,
+    "expected_priority": null,
+    "expected_duplicate": false,
+    "expected_escalation": true,
+    "reason": "The root cause and issue type are unclear."
+  },
+  {
+    "id": "EVAL-010",
+    "type": "multi_issue",
+    "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+    "expected_category": null,
+    "expected_priority": null,
+    "expected_duplicate": false,
+    "expected_escalation": true,
+    "reason": "The ticket contains both a network issue and a software issue."
+  },
+  {
+    "id": "EVAL-011",
+    "type": "multi_issue",
+    "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+    "expected_category": null,
+    "expected_priority": null,
+    "expected_duplicate": false,
+    "expected_escalation": true,
+    "reason": "The ticket contains both hardware and network issues."
+  },
+  {
+    "id": "EVAL-012",
+    "type": "true_duplicate",
+    "text": "Nobody on my team can connect to the company VPN or access internal systems.",
+    "expected_category": "Network",
+    "expected_priority": "High",
+    "expected_duplicate": true,
+    "duplicate_of": "INC-1001",
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-013",
+    "type": "true_duplicate",
+    "text": "Outlook crashes whenever I open an email with a large attachment.",
+    "expected_category": "Software",
+    "expected_priority": "Medium",
+    "expected_duplicate": true,
+    "duplicate_of": "INC-1004",
+    "expected_escalation": false
+  },
+  {
+    "id": "EVAL-014",
+    "type": "false_duplicate",
+    "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected.",
+    "expected_category": "Account Access",
+    "expected_priority": "High",
+    "expected_duplicate": false,
+    "similar_to": "INC-1008",
+    "expected_escalation": false,
+    "reason": "The ticket shares VPN keywords with an open network incident but the root cause is account authentication."
+  },
+  {
+    "id": "EVAL-015",
+    "type": "false_duplicate",
+    "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+    "expected_category": "Software",
+    "expected_priority": "Medium",
+    "expected_duplicate": false,
+    "similar_to": "INC-1010",
+    "expected_escalation": false,
+    "reason": "The wording resembles a keyboard hardware problem, but the issue is isolated to software."
+  }
+]

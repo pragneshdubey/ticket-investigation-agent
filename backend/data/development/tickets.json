@@ -1,0 +1,282 @@
+[
+  {
+    "id": "DEV-001",
+    "text": "I forgot my password and cannot log into my company account.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-002",
+    "text": "My two-factor authentication code is not being accepted.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-003",
+    "text": "I need access to the internal project repository.",
+    "category": "Account Access",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-004",
+    "text": "My account is locked after several failed login attempts.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-005",
+    "text": "I cannot access the company dashboard even though my credentials are correct.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-006",
+    "text": "Please provide me access to the shared engineering drive.",
+    "category": "Account Access",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-007",
+    "text": "My laptop will not turn on.",
+    "category": "Hardware",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-008",
+    "text": "My keyboard has stopped working.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-009",
+    "text": "The external monitor connected to my laptop shows no display.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-010",
+    "text": "My mouse occasionally disconnects from my computer.",
+    "category": "Hardware",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-011",
+    "text": "My laptop battery is draining unusually fast.",
+    "category": "Hardware",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-012",
+    "text": "The webcam is not detected during video meetings.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-013",
+    "text": "I cannot connect to the office Wi-Fi.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-014",
+    "text": "The internet connection is extremely slow today.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-015",
+    "text": "My VPN connection fails whenever I try to access the internal server.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-016",
+    "text": "I keep getting disconnected from the corporate network.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-017",
+    "text": "I cannot access a website that is required for my work.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-018",
+    "text": "The office network is working but file transfers are extremely slow.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-019",
+    "text": "Microsoft Excel freezes whenever I open a large spreadsheet.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-020",
+    "text": "Slack crashes immediately after opening.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-021",
+    "text": "The application update keeps failing.",
+    "category": "Software",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-022",
+    "text": "My PDF reader is not opening documents.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-023",
+    "text": "The accounting application displays an unexpected error when generating reports.",
+    "category": "Software",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-024",
+    "text": "The browser extension required for work stopped functioning after an update.",
+    "category": "Software",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-025",
+    "text": "I cannot log into the employee portal because my authentication code never arrives.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-026",
+    "text": "My laptop fan is making a loud noise and the device is overheating.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-027",
+    "text": "The Wi-Fi disconnects every few minutes in the meeting room.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-028",
+    "text": "The CRM application takes several minutes to load.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-029",
+    "text": "I accidentally lost access to the team shared folder.",
+    "category": "Account Access",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-030",
+    "text": "My laptop screen flickers randomly during work.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-031",
+    "text": "The VPN is connected but I cannot reach internal company resources.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-032",
+    "text": "The company chat application is showing a blank screen.",
+    "category": "Software",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-033",
+    "text": "I need permission to access the production logs.",
+    "category": "Account Access",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-034",
+    "text": "My USB headset is not detected by my laptop.",
+    "category": "Hardware",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-035",
+    "text": "The office internet is unavailable for my entire team.",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-036",
+    "text": "The presentation software crashes whenever I insert an image.",
+    "category": "Software",
+    "priority": "Low",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-037",
+    "text": "I cannot access the source control system after my account permissions were changed.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-038",
+    "text": "The laptop docking station is not charging my computer.",
+    "category": "Hardware",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-039",
+    "text": "Video calls keep dropping because my network connection becomes unstable.",
+    "category": "Network",
+    "priority": "Medium",
+    "department": "IT"
+  },
+  {
+    "id": "DEV-040",
+    "text": "The company VPN application crashes before establishing a connection.",
+    "category": "Software",
+    "priority": "High",
+    "department": "IT"
+  }
+]

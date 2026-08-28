@@ -1,0 +1,10 @@
+{
+  "description": "Streamline ticket investigations with an AI-driven platform that analyzes issues, verifies decisions, and escalates cases for human review.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

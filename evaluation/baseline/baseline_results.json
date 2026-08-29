@@ -1,0 +1,147 @@
+{
+  "treatment": {
+    "null_expected_labels": "Correctness is recorded as null and unlabeled tickets are excluded from category, priority, and exact accuracy denominators."
+  },
+  "metrics": {
+    "category_accuracy": 1.0,
+    "priority_accuracy": 0.8181818181818182,
+    "exact_classification_accuracy": 0.8181818181818182
+  },
+  "results": [
+    {
+      "ticket_id": "EVAL-001",
+      "predicted_category": "Account Access",
+      "expected_category": "Account Access",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "High",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-002",
+      "predicted_category": "Hardware",
+      "expected_category": "Hardware",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "High",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-003",
+      "predicted_category": "Network",
+      "expected_category": "Network",
+      "category_correct": true,
+      "predicted_priority": "Medium",
+      "expected_priority": "Medium",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-004",
+      "predicted_category": "Software",
+      "expected_category": "Software",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "Medium",
+      "priority_correct": false
+    },
+    {
+      "ticket_id": "EVAL-005",
+      "predicted_category": "Account Access",
+      "expected_category": "Account Access",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "High",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-006",
+      "predicted_category": "Network",
+      "expected_category": "Network",
+      "category_correct": true,
+      "predicted_priority": "Medium",
+      "expected_priority": "Medium",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-007",
+      "predicted_category": "Hardware",
+      "expected_category": "Hardware",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "High",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-008",
+      "predicted_category": "Account Access",
+      "expected_category": null,
+      "category_correct": null,
+      "predicted_priority": "High",
+      "expected_priority": null,
+      "priority_correct": null
+    },
+    {
+      "ticket_id": "EVAL-009",
+      "predicted_category": "Software",
+      "expected_category": null,
+      "category_correct": null,
+      "predicted_priority": "Medium",
+      "expected_priority": null,
+      "priority_correct": null
+    },
+    {
+      "ticket_id": "EVAL-010",
+      "predicted_category": "Software",
+      "expected_category": null,
+      "category_correct": null,
+      "predicted_priority": "High",
+      "expected_priority": null,
+      "priority_correct": null
+    },
+    {
+      "ticket_id": "EVAL-011",
+      "predicted_category": "Hardware",
+      "expected_category": null,
+      "category_correct": null,
+      "predicted_priority": "High",
+      "expected_priority": null,
+      "priority_correct": null
+    },
+    {
+      "ticket_id": "EVAL-012",
+      "predicted_category": "Network",
+      "expected_category": "Network",
+      "category_correct": true,
+      "predicted_priority": "High",
+      "expected_priority": "High",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-013",
+      "predicted_category": "Software",
+      "expected_category": "Software",
+      "category_correct": true,
+      "predicted_priority": "Medium",
+      "expected_priority": "Medium",
+      "priority_correct": true
+    },
+    {
+      "ticket_id": "EVAL-014",
+      "predicted_category": "Account Access",
+      "expected_category": "Account Access",
+      "category_correct": true,
+      "predicted_priority": "Medium",
+      "expected_priority": "High",
+      "priority_correct": false
+    },
+    {
+      "ticket_id": "EVAL-015",
+      "predicted_category": "Software",
+      "expected_category": "Software",
+      "category_correct": true,
+      "predicted_priority": "Medium",
+      "expected_priority": "Medium",
+      "priority_correct": true
+    }
+  ]
+}

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from backend.api.v1_router import router as v1_router
+from backend.api.v3_router import router as v3_router
 from backend.models.baseline import BaselineClassification
 from backend.services.baseline_classifier import classify_ticket
 
@@ -12,6 +13,8 @@ app = FastAPI(
 )
 
 app.include_router(v1_router)
+app.include_router(v3_router)
+
 
 
 class BaselineClassifyRequest(BaseModel):

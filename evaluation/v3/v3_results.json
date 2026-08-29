@@ -1,0 +1,2184 @@
+{
+  "evaluator": "V3 Verification Agent Evaluator",
+  "models": {
+    "generation": "gemma3:4b",
+    "embeddings": "nomic-embed-text",
+    "verifier": "gemma3:4b"
+  },
+  "duplicate_threshold": 0.8,
+  "metrics": {
+    "tickets_evaluated": 15,
+    "labeled_classification_tickets": 7,
+    "classification_accuracy": 1.0,
+    "priority_accuracy": 0.8571,
+    "exact_classification_accuracy": 0.8571,
+    "duplicate_metrics": {
+      "expected_duplicates": 3,
+      "predicted_duplicates": 3,
+      "correct_duplicates": 2,
+      "duplicate_precision": 0.6667,
+      "duplicate_recall": 0.6667
+    },
+    "escalation_metrics": {
+      "expected_escalations": 4,
+      "predicted_escalations": 8,
+      "correct_escalations": 4,
+      "escalation_precision": 0.5,
+      "escalation_recall": 1.0,
+      "escalation_accuracy": 0.7333
+    },
+    "safety_metrics": {
+      "ambiguous_tickets": 4,
+      "unsafe_autoroutes": 0,
+      "unsafe_autoroute_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "ticket_id": "EVAL-001",
+      "ticket_type": "clean",
+      "ticket_text": "I cannot log into my company account even though my password is correct.",
+      "status": "auto_routed",
+      "predicted": {
+        "action": "auto_route",
+        "category": "Account Access",
+        "priority": "High",
+        "duplicate_id": null,
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly states 'cannot log into my company account' which is a clear indicator of an Account Access issue. The priority is high due to the inability to access the account."
+        }
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "I cannot log into my company account even though my password is correct."
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "I cannot log into my company account even though my password is correct."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.7749
+              },
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.661
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.6397
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "I cannot log into my company account even though my password is correct.",
+            "proposed_category": "Account Access",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly states 'cannot log into my company account' which is a clear indicator of an Account Access issue. The priority is high due to the inability to access the account."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Account Access",
+            "proposed_priority": "High",
+            "is_duplicate": false
+          },
+          "output": {
+            "action": "auto_route",
+            "category": "Account Access",
+            "priority": "High",
+            "duplicate_id": null,
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly states 'cannot log into my company account' which is a clear indicator of an Account Access issue. The priority is high due to the inability to access the account."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-002",
+      "ticket_type": "clean",
+      "ticket_text": "My laptop does not turn on when I press the power button.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority."
+        }
+      },
+      "expected": {
+        "category": "Hardware",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "My laptop does not turn on when I press the power button."
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "My laptop does not turn on when I press the power button."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.665
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.6636
+              },
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.502
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "My laptop does not turn on when I press the power button.",
+            "proposed_category": "Hardware",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority.",
+          "input": {
+            "ticket_id": "EVAL-002",
+            "text": "My laptop does not turn on when I press the power button.",
+            "reason": "Verifier disagreement: The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority.",
+            "proposed_classification": {
+              "category": "Hardware",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.665
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.6636
+                },
+                {
+                  "id": "INC-1007",
+                  "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                  "category": "Hardware",
+                  "priority": "Medium",
+                  "similarity_score": 0.502
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-73C50210",
+            "reason": "Verifier disagreement: The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority.",
+            "ticket_id": "EVAL-002",
+            "timestamp": "2026-08-29T12:25:15.934761+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-73C50210"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket describes a general issue ('laptop does not turn on') without specifying the hardware component or any related details. It is vague and lacks explicit evidence to support the 'Hardware' category and 'High' priority."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-003",
+      "ticket_type": "clean",
+      "ticket_text": "The office Wi-Fi is extremely slow and websites take a long time to load.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Network",
+        "priority": "Medium",
+        "duplicate_id": "INC-1005",
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly mentions 'office Wi-Fi', which is a specific network resource. This clearly supports the proposed category of Network and the priority of Medium, as slow Wi-Fi performance is typically a medium priority issue."
+        }
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": false,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "The office Wi-Fi is extremely slow and websites take a long time to load."
+          },
+          "output": {
+            "category": "Network",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "The office Wi-Fi is extremely slow and websites take a long time to load."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1005",
+              "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+              "category": "Network",
+              "priority": "Medium",
+              "similarity_score": 0.855
+            },
+            "top_matches": [
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.855
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.6082
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5453
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "The office Wi-Fi is extremely slow and websites take a long time to load.",
+            "proposed_category": "Network",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly mentions 'office Wi-Fi', which is a specific network resource. This clearly supports the proposed category of Network and the priority of Medium, as slow Wi-Fi performance is typically a medium priority issue."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Network",
+            "proposed_priority": "Medium",
+            "is_duplicate": true
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Network",
+            "priority": "Medium",
+            "duplicate_id": "INC-1005",
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly mentions 'office Wi-Fi', which is a specific network resource. This clearly supports the proposed category of Network and the priority of Medium, as slow Wi-Fi performance is typically a medium priority issue."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-004",
+      "ticket_type": "clean",
+      "ticket_text": "Slack closes immediately every time I try to open it.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Software",
+        "priority": "Medium",
+        "duplicate_id": "INC-1009",
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly mentions 'Slack', a specific software application, and describes a clear issue (immediate closure upon opening). This supports the proposed category and priority."
+        }
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1009",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "Slack closes immediately every time I try to open it."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "Slack closes immediately every time I try to open it."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1009",
+              "text": "Slack desktop application fails to launch and closes immediately.",
+              "category": "Software",
+              "priority": "Medium",
+              "similarity_score": 0.8073
+            },
+            "top_matches": [
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8073
+              },
+              {
+                "id": "INC-1004",
+                "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.6281
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.5235
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "Slack closes immediately every time I try to open it.",
+            "proposed_category": "Software",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly mentions 'Slack', a specific software application, and describes a clear issue (immediate closure upon opening). This supports the proposed category and priority."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Software",
+            "proposed_priority": "Medium",
+            "is_duplicate": true
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Software",
+            "priority": "Medium",
+            "duplicate_id": "INC-1009",
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly mentions 'Slack', a specific software application, and describes a clear issue (immediate closure upon opening). This supports the proposed category and priority."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-005",
+      "ticket_type": "messy",
+      "ticket_text": "cant login accnt keeps saying auth failed pls help",
+      "status": "auto_routed",
+      "predicted": {
+        "action": "auto_route",
+        "category": "Account Access",
+        "priority": "High",
+        "duplicate_id": null,
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly states 'cant login accnt keeps saying auth failed', which clearly indicates an issue with account access and therefore supports the proposed category and priority."
+        }
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "cant login accnt keeps saying auth failed pls help"
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "cant login accnt keeps saying auth failed pls help"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6772
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.582
+              },
+              {
+                "id": "INC-1008",
+                "text": "The company VPN disconnects repeatedly during active sessions.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5209
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "cant login accnt keeps saying auth failed pls help",
+            "proposed_category": "Account Access",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly states 'cant login accnt keeps saying auth failed', which clearly indicates an issue with account access and therefore supports the proposed category and priority."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Account Access",
+            "proposed_priority": "High",
+            "is_duplicate": false
+          },
+          "output": {
+            "action": "auto_route",
+            "category": "Account Access",
+            "priority": "High",
+            "duplicate_id": null,
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly states 'cant login accnt keeps saying auth failed', which clearly indicates an issue with account access and therefore supports the proposed category and priority."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-006",
+      "ticket_type": "messy",
+      "ticket_text": "wifi sooo slow since mornin cant load stuff properly",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device).",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device)."
+        }
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "wifi sooo slow since mornin cant load stuff properly"
+          },
+          "output": {
+            "category": "Network",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "wifi sooo slow since mornin cant load stuff properly"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.6742
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.4724
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.4702
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "wifi sooo slow since mornin cant load stuff properly",
+            "proposed_category": "Network",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device)."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device).",
+          "input": {
+            "ticket_id": "EVAL-006",
+            "text": "wifi sooo slow since mornin cant load stuff properly",
+            "reason": "Verifier disagreement: The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device).",
+            "proposed_classification": {
+              "category": "Network",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1005",
+                  "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                  "category": "Network",
+                  "priority": "Medium",
+                  "similarity_score": 0.6742
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.4724
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.4702
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-9A4E71C9",
+            "reason": "Verifier disagreement: The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device).",
+            "ticket_id": "EVAL-006",
+            "timestamp": "2026-08-29T12:25:49.036100+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-9A4E71C9"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device).",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket uses vague language ('sloo', 'cant load stuff properly') without naming a specific network resource (e.g., Wi-Fi network name, IP address, or network device)."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-007",
+      "ticket_type": "messy",
+      "ticket_text": "my lapptop screen is black but its still making sound",
+      "status": "auto_routed",
+      "predicted": {
+        "action": "auto_route",
+        "category": "Hardware",
+        "priority": "High",
+        "duplicate_id": null,
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly mentions 'laptop screen' which is a hardware component, and the description of a black screen coupled with sound suggests a high-priority hardware issue."
+        }
+      },
+      "expected": {
+        "category": "Hardware",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "my lapptop screen is black but its still making sound"
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "my lapptop screen is black but its still making sound"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.6399
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.5521
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.4865
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "my lapptop screen is black but its still making sound",
+            "proposed_category": "Hardware",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly mentions 'laptop screen' which is a hardware component, and the description of a black screen coupled with sound suggests a high-priority hardware issue."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Hardware",
+            "proposed_priority": "High",
+            "is_duplicate": false
+          },
+          "output": {
+            "action": "auto_route",
+            "category": "Hardware",
+            "priority": "High",
+            "duplicate_id": null,
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly mentions 'laptop screen' which is a hardware component, and the description of a black screen coupled with sound suggests a high-priority hardware issue."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-008",
+      "ticket_type": "ambiguous",
+      "ticket_text": "I cannot get into the system and I need it for work.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority."
+        }
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "I cannot get into the system and I need it for work."
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "I cannot get into the system and I need it for work."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5622
+              },
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.5289
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.5077
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "I cannot get into the system and I need it for work.",
+            "proposed_category": "Account Access",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+          "input": {
+            "ticket_id": "EVAL-008",
+            "text": "I cannot get into the system and I need it for work.",
+            "reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+            "proposed_classification": {
+              "category": "Account Access",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.5622
+                },
+                {
+                  "id": "INC-1002",
+                  "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.5289
+                },
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.5077
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-9B2487F7",
+            "reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+            "ticket_id": "EVAL-008",
+            "timestamp": "2026-08-29T12:26:05.642747+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-9B2487F7"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket uses vague language ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-009",
+      "ticket_type": "ambiguous",
+      "ticket_text": "Something stopped working after lunch and now I cannot continue my work.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification."
+        }
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "Something stopped working after lunch and now I cannot continue my work."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "Something stopped working after lunch and now I cannot continue my work."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.6119
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5695
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.5575
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "Something stopped working after lunch and now I cannot continue my work.",
+            "proposed_category": "Software",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification.",
+          "input": {
+            "ticket_id": "EVAL-009",
+            "text": "Something stopped working after lunch and now I cannot continue my work.",
+            "reason": "Verifier disagreement: The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification.",
+            "proposed_classification": {
+              "category": "Software",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.6119
+                },
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.5695
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.5575
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-ECADB13F",
+            "reason": "Verifier disagreement: The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification.",
+            "ticket_id": "EVAL-009",
+            "timestamp": "2026-08-29T12:26:14.041397+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-ECADB13F"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket contains vague wording ('Something stopped working') without specifying the affected system, application, or resource. It does not provide sufficient evidence to determine a safe and sufficient auto-route classification."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-010",
+      "ticket_type": "multi_issue",
+      "ticket_text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe."
+        }
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1008",
+                "text": "The company VPN disconnects repeatedly during active sessions.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.7566
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.6219
+              },
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.6032
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+            "proposed_category": "Software",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe.",
+          "input": {
+            "ticket_id": "EVAL-010",
+            "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+            "reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe.",
+            "proposed_classification": {
+              "category": "Software",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1008",
+                  "text": "The company VPN disconnects repeatedly during active sessions.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.7566
+                },
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.6219
+                },
+                {
+                  "id": "INC-1009",
+                  "text": "Slack desktop application fails to launch and closes immediately.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.6032
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-340151DF",
+            "reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe.",
+            "ticket_id": "EVAL-010",
+            "timestamp": "2026-08-29T12:26:22.299517+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-340151DF"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) spanning different categories, violating criterion #3. Auto-routing without explicit evidence is unsafe."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-011",
+      "ticket_type": "multi_issue",
+      "ticket_text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts).",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts)."
+        }
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi."
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.6485
+              },
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.6302
+              },
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.57
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+            "proposed_category": "Hardware",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts)."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts).",
+          "input": {
+            "ticket_id": "EVAL-011",
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+            "reason": "Verifier disagreement: The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts).",
+            "proposed_classification": {
+              "category": "Hardware",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.6485
+                },
+                {
+                  "id": "INC-1005",
+                  "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                  "category": "Network",
+                  "priority": "Medium",
+                  "similarity_score": 0.6302
+                },
+                {
+                  "id": "INC-1007",
+                  "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                  "category": "Hardware",
+                  "priority": "Medium",
+                  "similarity_score": 0.57
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-6D6C3A40",
+            "reason": "Verifier disagreement: The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts).",
+            "ticket_id": "EVAL-011",
+            "timestamp": "2026-08-29T12:26:30.642337+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-6D6C3A40"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts).",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket describes two distinct issues (flickering screen and Wi-Fi connectivity) requiring separate investigation and routing. This violates criterion #3 (Multi-issue conflicts)."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-012",
+      "ticket_type": "true_duplicate",
+      "ticket_text": "Nobody on my team can connect to the company VPN or access internal systems.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing."
+        }
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "High",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1001",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": false,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "Nobody on my team can connect to the company VPN or access internal systems."
+          },
+          "output": {
+            "category": "Network",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "Nobody on my team can connect to the company VPN or access internal systems."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1001",
+              "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+              "category": "Network",
+              "priority": "High",
+              "similarity_score": 0.8586
+            },
+            "top_matches": [
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.8586
+              },
+              {
+                "id": "INC-1008",
+                "text": "The company VPN disconnects repeatedly during active sessions.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.7251
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6031
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "Nobody on my team can connect to the company VPN or access internal systems.",
+            "proposed_category": "Network",
+            "proposed_priority": "High"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+          "input": {
+            "ticket_id": "EVAL-012",
+            "text": "Nobody on my team can connect to the company VPN or access internal systems.",
+            "reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+            "proposed_classification": {
+              "category": "Network",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": true,
+              "best_match": {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.8586
+              },
+              "top_matches": [
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.8586
+                },
+                {
+                  "id": "INC-1008",
+                  "text": "The company VPN disconnects repeatedly during active sessions.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.7251
+                },
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.6031
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-08E6A15A",
+            "reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+            "ticket_id": "EVAL-012",
+            "timestamp": "2026-08-29T12:26:38.916550+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-08E6A15A"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-013",
+      "ticket_type": "true_duplicate",
+      "ticket_text": "Outlook crashes whenever I open an email with a large attachment.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Software",
+        "priority": "Medium",
+        "duplicate_id": "INC-1004",
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly states \"Outlook crashes\" which is a specific software issue triggered by \"large attachments\", fulfilling the explicit evidence requirement."
+        }
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1004",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "Outlook crashes whenever I open an email with a large attachment."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "Outlook crashes whenever I open an email with a large attachment."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1004",
+              "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+              "category": "Software",
+              "priority": "Medium",
+              "similarity_score": 0.8428
+            },
+            "top_matches": [
+              {
+                "id": "INC-1004",
+                "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8428
+              },
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.4884
+              },
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.4842
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "Outlook crashes whenever I open an email with a large attachment.",
+            "proposed_category": "Software",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly states \"Outlook crashes\" which is a specific software issue triggered by \"large attachments\", fulfilling the explicit evidence requirement."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Software",
+            "proposed_priority": "Medium",
+            "is_duplicate": true
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Software",
+            "priority": "Medium",
+            "duplicate_id": "INC-1004",
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly states \"Outlook crashes\" which is a specific software issue triggered by \"large attachments\", fulfilling the explicit evidence requirement."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-014",
+      "ticket_type": "false_duplicate",
+      "ticket_text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected.",
+      "status": "auto_routed",
+      "predicted": {
+        "action": "auto_route",
+        "category": "Account Access",
+        "priority": "Medium",
+        "duplicate_id": null,
+        "escalation_reason": null,
+        "verification_result": {
+          "agreement": true,
+          "reason": "The ticket explicitly states 'authentication credentials are rejected,' which clearly falls under the Account Access category. This issue is likely to require medium priority investigation."
+        }
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": false,
+        "exact_classification_correct": false,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected."
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6765
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.606
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.5902
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected.",
+            "proposed_category": "Account Access",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": true,
+            "reason": "The ticket explicitly states 'authentication credentials are rejected,' which clearly falls under the Account Access category. This issue is likely to require medium priority investigation."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "final_decision",
+          "reason": "Verifier agreed with proposed classification. Proceeding to route.",
+          "input": {
+            "proposed_category": "Account Access",
+            "proposed_priority": "Medium",
+            "is_duplicate": false
+          },
+          "output": {
+            "action": "auto_route",
+            "category": "Account Access",
+            "priority": "Medium",
+            "duplicate_id": null,
+            "escalation_reason": null,
+            "verification_result": {
+              "agreement": true,
+              "reason": "The ticket explicitly states 'authentication credentials are rejected,' which clearly falls under the Account Access category. This issue is likely to require medium priority investigation."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-015",
+      "ticket_type": "false_duplicate",
+      "ticket_text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Verifier disagreement: The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product.",
+        "verification_result": {
+          "agreement": false,
+          "reason": "The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product."
+        }
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Initial classification of issue category and priority.",
+          "input": {
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Search open incidents using semantic embeddings for duplicates.",
+          "input": {
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.7374
+              },
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.5212
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.5087
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "verify_classification",
+          "reason": "Independently verify whether proposed category and priority are supported by ticket text.",
+          "input": {
+            "ticket_text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+            "proposed_category": "Software",
+            "proposed_priority": "Medium"
+          },
+          "output": {
+            "agreement": false,
+            "reason": "The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product."
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "escalate_to_human",
+          "reason": "Verifier disagreement: The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product.",
+          "input": {
+            "ticket_id": "EVAL-015",
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+            "reason": "Verifier disagreement: The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product.",
+            "proposed_classification": {
+              "category": "Software",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.7374
+                },
+                {
+                  "id": "INC-1009",
+                  "text": "Slack desktop application fails to launch and closes immediately.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.5212
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.5087
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-30AAD43E",
+            "reason": "Verifier disagreement: The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product.",
+            "ticket_id": "EVAL-015",
+            "timestamp": "2026-08-29T12:27:03.906837+00:00"
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "final_decision",
+          "reason": "Verifier disagreed with classification. Escalate immediately without retry.",
+          "input": {
+            "escalation_id": "ESC-30AAD43E"
+          },
+          "output": {
+            "action": "escalate",
+            "category": null,
+            "priority": null,
+            "duplicate_id": null,
+            "escalation_reason": "Verifier disagreement: The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product.",
+            "verification_result": {
+              "agreement": false,
+              "reason": "The ticket describes a specific issue within a remote desktop application, but lacks explicit evidence of the software itself. 'Remote desktop application' is too vague and doesn't name a specific software product."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

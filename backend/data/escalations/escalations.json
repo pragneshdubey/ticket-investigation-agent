@@ -360,12 +360,52 @@
     "status": "escalated"
   },
   {
-    "escalation_id": "ESC-39618FF6",
-    "ticket_id": "CASE-C",
-    "ticket_text": "I cannot get into the system and I need it for work.",
-    "reason": "No duplicate tickets found, and the issue is specifically about not being able to get into the system - requires investigation of account details and potential authentication problems.",
+    "escalation_id": "ESC-5CBA5B41",
+    "ticket_id": "TEST-DISAGREE",
+    "ticket_text": "Simple query.",
+    "reason": "Verifier disagreement: Proposed priority High is unsupported for a low-impact query.",
     "proposed_classification": {
-      "category": "Account Access",
+      "category": "Software",
+      "priority": "Low"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.4484
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.3914
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.3908
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "timestamp": "2026-08-29T12:04:42.143380+00:00",
+    "status": "escalated"
+  },
+  {
+    "escalation_id": "ESC-97B21BDD",
+    "ticket_id": "TEST-A",
+    "ticket_text": "My VPN is not connecting and I cannot access the internal server.",
+    "reason": "Verifier disagreement: The ticket describes two distinct issues: VPN connectivity and access to an internal server. This constitutes a multi-issue conflict and violates criterion #3, as a single auto-route category cannot safely handle multiple conflicting issues.",
+    "proposed_classification": {
+      "category": "Network",
       "priority": "High"
     },
     "duplicate_info": {
@@ -377,26 +417,72 @@
           "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
           "category": "Network",
           "priority": "High",
-          "similarity_score": 0.5622
+          "similarity_score": 0.7617
+        },
+        {
+          "id": "INC-1008",
+          "text": "The company VPN disconnects repeatedly during active sessions.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.663
         },
         {
           "id": "INC-1002",
           "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
           "category": "Account Access",
           "priority": "High",
-          "similarity_score": 0.5289
+          "similarity_score": 0.5414
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "timestamp": "2026-08-29T12:17:58.907728+00:00",
+    "status": "escalated"
+  },
+  {
+    "escalation_id": "ESC-08E6A15A",
+    "ticket_id": "EVAL-012",
+    "ticket_text": "Nobody on my team can connect to the company VPN or access internal systems.",
+    "reason": "Verifier disagreement: The ticket describes multiple issues (VPN and internal systems access) without specifying which one is the primary problem or the nature of the failure. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+    "proposed_classification": {
+      "category": "Network",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": true,
+      "best_match": {
+        "id": "INC-1001",
+        "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+        "category": "Network",
+        "priority": "High",
+        "similarity_score": 0.8586
+      },
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.8586
+        },
+        {
+          "id": "INC-1008",
+          "text": "The company VPN disconnects repeatedly during active sessions.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.7251
         },
         {
           "id": "INC-1006",
           "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
           "category": "Account Access",
           "priority": "High",
-          "similarity_score": 0.5077
+          "similarity_score": 0.6031
         }
       ],
       "threshold_used": 0.8
     },
-    "timestamp": "2026-08-29T11:46:52.925051+00:00",
+    "timestamp": "2026-08-29T12:26:38.916550+00:00",
     "status": "escalated"
   }
 ]

@@ -7,7 +7,7 @@ When the V3 Triage Agent encounters a ticket that cannot be safely auto-routed (
 
 ## 2. When a Ticket Enters Human Review
 A ticket enters Human Review when:
-- The V3 independent verifier disagrees with the proposed category or priority (`verify_classification()` returns `agreement: false`).
+- The V3 structured adversarial verifier disagrees with the proposed category or priority (`verify_classification()` returns `agreement: false`).
 - The ticket lacks explicit textual evidence or describes conflicting multi-issue domain failures.
 - An explicit escalation tool call (`escalate_to_human()`) is executed.
 

@@ -36,11 +36,8 @@ def save_runtime_tickets(tickets: List[Dict[str, Any]]) -> None:
     RUNTIME_TICKETS_FILE.write_text(json.dumps(tickets, indent=2), encoding="utf-8")
 
 
-def get_next_ticket_id() -> str:
-    """
-    Generate a predictable, unique ticket ID (e.g., INC-1050)
-    by finding the maximum existing numeric ID across seeded and runtime tickets.
-    """
+def _get_next_ticket_id_unlocked(runtime_tickets: List[Dict[str, Any]]) -> str:
+    """Internal helper to calculate next ticket ID from existing tickets."""
     existing_ids: List[int] = []
 
     # Read seeded tickets
@@ -55,15 +52,23 @@ def get_next_ticket_id() -> str:
             pass
 
     # Read runtime tickets
-    for item in get_runtime_tickets():
+    for item in runtime_tickets:
         match = re.search(r"INC-(\d+)", item.get("id", ""))
         if match:
             existing_ids.append(int(match.group(1)))
 
     max_val = max(existing_ids) if existing_ids else 1049
-    # If maximum is less than 1049, start from 1050 for clean separation
     start_num = max(max_val, 1049) + 1
     return f"INC-{start_num}"
+
+
+def get_next_ticket_id() -> str:
+    """
+    Generate a predictable, unique ticket ID (e.g., INC-1050)
+    by finding the maximum existing numeric ID across seeded and runtime tickets.
+    """
+    with _ticket_lock:
+        return _get_next_ticket_id_unlocked(get_runtime_tickets())
 
 
 def persist_triage_result(
@@ -78,115 +83,110 @@ def persist_triage_result(
 ) -> Dict[str, Any]:
     """
     Persist the runtime ticket resulting from a live V3 triage investigation.
+    Complete READ-MODIFY-WRITE critical section protected by _ticket_lock.
     """
     with _ticket_lock:
         tickets = get_runtime_tickets()
 
-    target_id = (
-        ticket_id
-        if (ticket_id and ticket_id != "UNTRACKED" and not ticket_id.startswith("PREVIEW-"))
-        else get_next_ticket_id()
-    )
+        target_id = (
+            ticket_id
+            if (ticket_id and ticket_id != "UNTRACKED" and not ticket_id.startswith("PREVIEW-"))
+            else _get_next_ticket_id_unlocked(tickets)
+        )
 
-    if action == "auto_route":
-        record = {
-            "id": target_id,
-            "text": ticket_text,
-            "title": ticket_text,
-            "category": category or "General",
-            "priority": priority or "Medium",
-            "department": "IT",
-            "status": "Open",
-            "opened": "Just now",
-            "action": "auto_route",
-            "duplicate_id": None,
-            "created_at": datetime.now().isoformat(),
-        }
+        if action == "auto_route":
+            record = {
+                "id": target_id,
+                "text": ticket_text,
+                "title": ticket_text,
+                "category": category or "General",
+                "priority": priority or "Medium",
+                "department": "IT",
+                "status": "Open",
+                "opened": "Just now",
+                "action": "auto_route",
+                "duplicate_id": None,
+                "created_at": datetime.now().isoformat(),
+            }
+
+        elif action == "duplicate_route":
+            link_id = f"LINK-{target_id}"
+            record = {
+                "id": link_id,
+                "text": ticket_text,
+                "title": ticket_text,
+                "category": category or "General",
+                "priority": priority or "Medium",
+                "department": "IT",
+                "status": "Duplicate Linked",
+                "opened": "Just now",
+                "action": "duplicate_route",
+                "duplicate_id": duplicate_id,
+                "created_at": datetime.now().isoformat(),
+            }
+
+        elif action == "escalate":
+            record = {
+                "id": target_id,
+                "text": ticket_text,
+                "title": ticket_text,
+                "category": category or "Unassigned",
+                "priority": priority or "Unassigned",
+                "department": "IT",
+                "status": "Human Review",
+                "opened": "Just now",
+                "action": "escalate",
+                "escalation_reason": escalation_reason,
+                "escalation_id": escalation_id,
+                "created_at": datetime.now().isoformat(),
+            }
+
+        else:
+            record = {
+                "id": target_id,
+                "text": ticket_text,
+                "title": ticket_text,
+                "category": category or "General",
+                "priority": priority or "Medium",
+                "department": "IT",
+                "status": "Open",
+                "opened": "Just now",
+                "action": action,
+                "created_at": datetime.now().isoformat(),
+            }
+
         tickets.append(record)
         save_runtime_tickets(tickets)
         return record
-
-    elif action == "duplicate_route":
-        # Linked to existing master incident (e.g. INC-1010)
-        link_id = f"LINK-{target_id}"
-        record = {
-            "id": link_id,
-            "text": ticket_text,
-            "title": ticket_text,
-            "category": category or "General",
-            "priority": priority or "Medium",
-            "department": "IT",
-            "status": "Duplicate Linked",
-            "opened": "Just now",
-            "action": "duplicate_route",
-            "duplicate_id": duplicate_id,
-            "created_at": datetime.now().isoformat(),
-        }
-        tickets.append(record)
-        save_runtime_tickets(tickets)
-        return record
-
-    elif action == "escalate":
-        record = {
-            "id": target_id,
-            "text": ticket_text,
-            "title": ticket_text,
-            "category": category or "Unassigned",
-            "priority": priority or "Unassigned",
-            "department": "IT",
-            "status": "Human Review",
-            "opened": "Just now",
-            "action": "escalate",
-            "escalation_reason": escalation_reason,
-            "escalation_id": escalation_id,
-            "created_at": datetime.now().isoformat(),
-        }
-        tickets.append(record)
-        save_runtime_tickets(tickets)
-        return record
-
-    # Fallback
-    record = {
-        "id": target_id,
-        "text": ticket_text,
-        "title": ticket_text,
-        "category": category or "General",
-        "priority": priority or "Medium",
-        "department": "IT",
-        "status": "Open",
-        "opened": "Just now",
-        "action": action,
-        "created_at": datetime.now().isoformat(),
-    }
-    tickets.append(record)
-    save_runtime_tickets(tickets)
-    return record
 
 
 def update_runtime_ticket_status(ticket_id: str, human_action: str) -> Optional[Dict[str, Any]]:
-    """Update runtime ticket status when human review decision is submitted."""
+    """
+    Update runtime ticket status when human review decision is submitted.
+    Complete READ-MODIFY-WRITE critical section protected by _ticket_lock.
+    """
     with _ticket_lock:
         tickets = get_runtime_tickets()
-    status_map = {
-        "confirm": "Completed",
-        "reassign": "Reassigned",
-        "ask_more_info": "Waiting for Info",
-    }
-    new_status = status_map.get(human_action, "Completed")
+        status_map = {
+            "confirm": "Completed",
+            "reassign": "Reassigned",
+            "ask_more_info": "Waiting for Info",
+        }
+        new_status = status_map.get(human_action, "Completed")
 
-    updated_record = None
-    for ticket in tickets:
-        if ticket.get("id") == ticket_id or ticket.get("escalation_id") == ticket_id:
-            ticket["status"] = new_status
-            ticket["human_action"] = human_action
-            ticket["updated_at"] = datetime.now().isoformat()
-            updated_record = ticket
-            break
+        updated_record = None
+        for ticket in tickets:
+            if ticket.get("id") == ticket_id or ticket.get("escalation_id") == ticket_id:
+                ticket["status"] = new_status
+                ticket["human_action"] = human_action
+                ticket["updated_at"] = datetime.now().isoformat()
+                updated_record = ticket
+                break
 
-    if updated_record:
-        save_runtime_tickets(tickets)
+        if updated_record:
+            save_runtime_tickets(tickets)
 
-    return updated_record
+        return updated_record
 
 
 def get_all_open_tickets() -> List[Dict[str, Any]]:
@@ -200,7 +200,6 @@ def get_all_open_tickets() -> List[Dict[str, Any]]:
         try:
             seeded = json.loads(OPEN_TICKETS_FILE.read_text(encoding="utf-8"))
             for i, item in enumerate(seeded):
-                # Age offset for seeded demo display
                 ages = ["2h ago", "4h ago", "6h ago", "8h ago", "1d ago", "1d ago", "2d ago", "2d ago", "3d ago", "3d ago"]
                 age_str = ages[i % len(ages)]
                 combined.append(
@@ -252,4 +251,3 @@ def get_all_open_tickets() -> List[Dict[str, Any]]:
         )
 
     return combined
-

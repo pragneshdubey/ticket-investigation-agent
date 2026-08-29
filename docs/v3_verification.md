@@ -1,7 +1,15 @@
-# V3 Adversarial Verification Stage Documentation
+# V3 Structured Adversarial Verification Stage Documentation
 
 ## 1. Overview
-ResolveAI V3 introduces an Adversarial Verification Pass (`verify_classification()`) to validate proposed classification labels before tickets are auto-routed. The verifier runs as a separate structured verification pass using a stricter rubric. (Note: The verifier currently uses the same base model family, `gemma3:4b`, executing an adversarial check under a strict safety rubric). If the verification pass agrees, the ticket is routed or linked to a duplicate incident. If the verifier disagrees, the ticket is **immediately escalated to human support** without automatic retry loops.
+ResolveAI V3 introduces a **Structured Adversarial Verification Pass** (`verify_classification()`) to validate proposed classification labels before tickets are auto-routed.
+
+### Model Independence & Verification Disclosure
+- **Pass Structure**: The system performs a separate verification pass using a dedicated verifier prompt and strict safety rubric.
+- **Underlying Model**: Both classification (`classify_ticket`) and verification (`verify_classification`) currently utilize the same underlying model family (`gemma3:4b`).
+- **Terminology**: Consequently, this pass is accurately described as **structured adversarial verification** (or second-pass verification) rather than model-independent verification.
+- **Future Production Note**: A future production deployment could utilize a separate, distinct model family to provide complete model independence.
+
+If the verification pass agrees, the ticket is auto-routed or linked to a duplicate incident. If the verifier disagrees, the ticket is **immediately escalated to human support** without automatic retry loops.
 
 ---
 
@@ -15,7 +23,7 @@ Step 1: classify_ticket() ──► Proposed Category & Priority
          │
 Step 2: search_duplicate_tickets() ──► Open Incident Duplicate Match
          │
-Step 3: verify_classification() ──► Adversarial Verification Pass (gemma3:4b strict rubric)
+Step 3: verify_classification() ──► Structured Adversarial Verification Pass (gemma3:4b rubric)
          │
          ├───► Agreement == True  ──► Final Decision (auto_route / duplicate_route)
          └───► Agreement == False ──► Immediate escalate_to_human() (NO retry loop)

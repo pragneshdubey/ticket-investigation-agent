@@ -1,0 +1,60 @@
+[
+  {
+    "id": "LINK-INC-1050",
+    "text": "My laptop keyboard has stopped working.",
+    "title": "My laptop keyboard has stopped working.",
+    "category": "Hardware",
+    "priority": "Low",
+    "department": "IT",
+    "status": "Duplicate Linked",
+    "opened": "Just now",
+    "action": "duplicate_route",
+    "duplicate_id": "INC-1010",
+    "created_at": "2026-08-29T20:05:06.380695"
+  },
+  {
+    "id": "INC-1051",
+    "text": "the lan is not working due to port issue",
+    "title": "the lan is not working due to port issue",
+    "category": "Network",
+    "priority": "High",
+    "department": "IT",
+    "status": "Open",
+    "opened": "Just now",
+    "action": "auto_route",
+    "duplicate_id": null,
+    "created_at": "2026-08-29T20:05:16.839941"
+  },
+  {
+    "id": "INC-1052",
+    "text": "I cannot get into the system and I need it for work.",
+    "title": "I cannot get into the system and I need it for work.",
+    "category": "Account Access",
+    "priority": "High",
+    "department": "IT",
+    "status": "Completed",
+    "opened": "Just now",
+    "action": "escalate",
+    "escalation_reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+    "escalation_id": null,
+    "created_at": "2026-08-29T20:05:27.307856",
+    "human_action": "confirm",
+    "updated_at": "2026-08-29T20:05:44.022847"
+  },
+  {
+    "id": "INC-1053",
+    "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+    "title": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+    "category": "Software",
+    "priority": "High",
+    "department": "IT",
+    "status": "Reassigned",
+    "opened": "Just now",
+    "action": "escalate",
+    "escalation_reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) across different categories, violating criterion 3. It lacks explicit evidence to support a single routing decision.",
+    "escalation_id": null,
+    "created_at": "2026-08-29T20:05:37.780891",
+    "human_action": "reassign",
+    "updated_at": "2026-08-29T20:05:46.127732"
+  }
+]

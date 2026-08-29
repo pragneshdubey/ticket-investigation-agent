@@ -7,7 +7,28 @@
     "proposed_classification": null,
     "duplicate_info": null,
     "timestamp": "2026-08-29T11:33:06.002248+00:00",
-    "status": "escalated"
+    "status": "waiting_for_info",
+    "human_review": {
+      "human_action": "ask_more_info",
+      "status": "waiting_for_info",
+      "timestamp": "2026-08-29T13:25:49.828849+00:00",
+      "reviewer_notes": null
+    },
+    "trajectory": [
+      {
+        "step_number": 1,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'ask_more_info'.",
+        "input": {
+          "human_action": "ask_more_info",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "waiting_for_info",
+          "timestamp": "2026-08-29T13:25:49.828849+00:00"
+        }
+      }
+    ]
   },
   {
     "escalation_id": "ESC-31C81B5D",
@@ -659,5 +680,589 @@
     "timestamp": "2026-08-29T12:39:28.768012+00:00",
     "status": "escalated",
     "human_review": null
+  },
+  {
+    "escalation_id": "ESC-592C362E",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My VPN is not connecting and I cannot access the internal server.",
+    "reason": "Verifier disagreement: The ticket describes two distinct issues: VPN connectivity and access to an internal server. This violates criterion #3 (Multi-issue conflicts) as it involves multiple distinct issues spanning different categories.",
+    "proposed_classification": {
+      "category": "Network",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.7617
+        },
+        {
+          "id": "INC-1008",
+          "text": "The company VPN disconnects repeatedly during active sessions.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.663
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5414
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T12:58:06.305923+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-0E2D99A5",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague language ('cannot get into the system') without naming a specific system or application. Therefore, it lacks explicit evidence and is insufficient for auto-routing.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T12:58:28.363100+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-F083A31F",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My VPN is not connecting and I cannot access the internal server.",
+    "reason": "Verifier disagreement: The ticket describes two distinct issues: VPN connectivity and access to an internal server. This constitutes a multi-issue conflict, and auto-routing without explicit evidence is unsafe.",
+    "proposed_classification": {
+      "category": "Network",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.7617
+        },
+        {
+          "id": "INC-1008",
+          "text": "The company VPN disconnects repeatedly during active sessions.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.663
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5414
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:16:47.077073+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-1E980DFC",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without specifying the exact system or the nature of the access problem. This lacks explicit evidence and is therefore unsafe for auto-routing.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:16:57.685530+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-BF343F04",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to determine the appropriate category and priority.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:23:42.578033+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-65FD95AE",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "the laptop is not working",
+    "reason": "Verifier disagreement: The ticket \"the laptop is not working\" is vague and lacks explicit evidence. It does not name a specific system, application, or peripheral, making it unsafe to auto-route to Hardware without more details.",
+    "proposed_classification": {
+      "category": "Hardware",
+      "priority": "Medium"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.7374
+        },
+        {
+          "id": "INC-1003",
+          "text": "Several laptops are not powering on after the latest office power outage.",
+          "category": "Hardware",
+          "priority": "High",
+          "similarity_score": 0.6939
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.5682
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:25:27.984263+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-1B3CCC7C",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My laptop is not working",
+    "reason": "Verifier disagreement: The ticket 'My laptop is not working' is vague and lacks explicit evidence. It does not name a specific system, application, or peripheral, making it unsafe to route to 'Hardware' with 'High' priority without further details.",
+    "proposed_classification": {
+      "category": "Hardware",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1003",
+          "text": "Several laptops are not powering on after the latest office power outage.",
+          "category": "Hardware",
+          "priority": "High",
+          "similarity_score": 0.6923
+        },
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.6845
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.5503
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:26:37.909859+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-352E73BD",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My laptop is not working.",
+    "reason": "Verifier disagreement: The ticket \"My laptop is not working\" is vague and lacks explicit evidence. It does not name a specific system, application, or peripheral, making it unsafe to route to Hardware without further details.",
+    "proposed_classification": {
+      "category": "Hardware",
+      "priority": "Medium"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1003",
+          "text": "Several laptops are not powering on after the latest office power outage.",
+          "category": "Hardware",
+          "priority": "High",
+          "similarity_score": 0.7076
+        },
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.6914
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.559
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T13:31:38.374246+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-EAD7452D",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My laptop is not working",
+    "reason": "Verifier disagreement: The ticket 'My laptop is not working' is vague and lacks explicit evidence. It does not name a specific system, application, or peripheral, making it unsuitable for auto-routing without further details.",
+    "proposed_classification": {
+      "category": "Hardware",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1003",
+          "text": "Several laptops are not powering on after the latest office power outage.",
+          "category": "Hardware",
+          "priority": "High",
+          "similarity_score": 0.6923
+        },
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.6845
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.5503
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T14:10:35.061393+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-8E698B75",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without specifying the exact system or issue. 'Need it for work' does not provide sufficient evidence to determine the appropriate category and priority.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T14:16:35.631929+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-8951B67A",
+    "ticket_id": "INC-1052",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without naming a specific system or application. It does not provide sufficient evidence to support the proposed category and priority.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [
+      {
+        "step_number": 1,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'confirm'.",
+        "input": {
+          "human_action": "confirm",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "completed",
+          "timestamp": "2026-08-29T14:35:43.991029+00:00"
+        }
+      }
+    ],
+    "timestamp": "2026-08-29T14:35:27.283394+00:00",
+    "status": "completed",
+    "human_review": {
+      "human_action": "confirm",
+      "status": "completed",
+      "timestamp": "2026-08-29T14:35:43.991029+00:00",
+      "reviewer_notes": null
+    }
+  },
+  {
+    "escalation_id": "ESC-365A80C0",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "My laptop is not working",
+    "reason": "Verifier disagreement: The ticket \"My laptop is not working\" is vague and lacks explicit evidence. It does not name a specific system, application, or hardware component.",
+    "proposed_classification": {
+      "category": "Hardware",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1003",
+          "text": "Several laptops are not powering on after the latest office power outage.",
+          "category": "Hardware",
+          "priority": "High",
+          "similarity_score": 0.6923
+        },
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.6845
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.5503
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T14:18:10.441581+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-7DA6DF35",
+    "ticket_id": "INC-1053",
+    "ticket_text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+    "reason": "Verifier disagreement: The ticket describes multiple distinct issues (VPN disconnects and Slack crashes) across different categories, violating criterion 3. It lacks explicit evidence to support a single routing decision.",
+    "proposed_classification": {
+      "category": "Software",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1008",
+          "text": "The company VPN disconnects repeatedly during active sessions.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.7566
+        },
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.6219
+        },
+        {
+          "id": "INC-1009",
+          "text": "Slack desktop application fails to launch and closes immediately.",
+          "category": "Software",
+          "priority": "Medium",
+          "similarity_score": 0.6032
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [
+      {
+        "step_number": 1,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'reassign'.",
+        "input": {
+          "human_action": "reassign",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "reassigned",
+          "timestamp": "2026-08-29T14:35:46.086812+00:00"
+        }
+      }
+    ],
+    "timestamp": "2026-08-29T14:35:37.759063+00:00",
+    "status": "reassigned",
+    "human_review": {
+      "human_action": "reassign",
+      "status": "reassigned",
+      "timestamp": "2026-08-29T14:35:46.086812+00:00",
+      "reviewer_notes": null
+    }
   }
 ]

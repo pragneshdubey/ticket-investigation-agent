@@ -28,7 +28,12 @@ class V3TriageAgent:
     """
 
     def run(self, ticket_req: V3TriageRequest) -> V3TriageResponse:
-        ticket_id = ticket_req.ticket_id or "UNTRACKED"
+        if not ticket_req.ticket_id or ticket_req.ticket_id == "UNTRACKED":
+            from backend.tools.runtime_ticket_tool import get_next_ticket_id
+            ticket_id = get_next_ticket_id()
+        else:
+            ticket_id = ticket_req.ticket_id
+
         ticket_text = ticket_req.text.strip()
 
         trajectory: List[V3TrajectoryStep] = []
@@ -167,6 +172,8 @@ class V3TriageAgent:
             final_status = "escalated"
             final_dec = V3FinalDecision(
                 action="escalate",
+                category=proposed_cat,
+                priority=proposed_pri,
                 escalation_reason=esc_reason,
                 verification_result=verification_res,
             )

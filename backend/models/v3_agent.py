@@ -73,3 +73,34 @@ class HumanReviewDetails(BaseModel):
         default_factory=lambda: ["confirm", "reassign", "ask_more_info"]
     )
     review_record: Optional[HumanReviewRecord] = None
+
+
+class OpenTicketItem(BaseModel):
+    ticket_id: str
+    title: str
+    category: str
+    priority: str
+    department: str = "IT"
+    status: str
+    opened: str
+    duplicate_id: Optional[str] = None
+    linked_count: Optional[int] = 0
+
+
+class AgentRunItem(BaseModel):
+    run_id: str
+    ticket_id: str
+    input: str
+    status: str
+    action: str
+    category: Optional[str] = None
+    priority: Optional[str] = None
+    duration_seconds: float = 0.0
+    duration_str: str = "0.0s"
+    duplicate_id: Optional[str] = None
+    escalation_reason: Optional[str] = None
+    trajectory: List[Dict[str, Any]] = Field(default_factory=list)
+    human_review: Optional[Dict[str, Any]] = None
+    created_at: Optional[str] = None
+
+

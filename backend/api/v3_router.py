@@ -1,17 +1,30 @@
 import json
+import time
 from pathlib import Path
 from typing import Any, List
 from fastapi import APIRouter, HTTPException
 
 from backend.agents.v3_triage_agent import V3TriageAgent
 from backend.models.v3_agent import (
+    AgentRunItem,
     HumanReviewDetails,
     HumanReviewRecord,
     HumanReviewRequest,
+    OpenTicketItem,
     V3TriageRequest,
     V3TriageResponse,
 )
 from backend.tools.escalation_tool import get_escalation_by_ticket_id, record_human_review
+from backend.tools.runtime_run_tool import (
+    append_human_review_to_run,
+    get_runtime_runs,
+    persist_agent_run,
+)
+from backend.tools.runtime_ticket_tool import (
+    get_all_open_tickets,
+    persist_triage_result,
+    update_runtime_ticket_status,
+)
 
 router = APIRouter(prefix="/api/v3", tags=["V3 Verification Triage Agent"])
 v3_agent_instance = V3TriageAgent()
@@ -31,9 +44,64 @@ def triage_ticket_v3(request: V3TriageRequest) -> V3TriageResponse:
     if not request.text or not request.text.strip():
         raise HTTPException(status_code=400, detail="Ticket text cannot be empty.")
     try:
-        return v3_agent_instance.run(request)
+        t_start = time.time()
+        response = v3_agent_instance.run(request)
+        t_end = time.time()
+        duration_sec = t_end - t_start
+
+        # Handle runtime ticket persistence based on triage decision
+        record = persist_triage_result(
+            ticket_id=response.ticket_id,
+            ticket_text=response.ticket_text,
+            action=response.final_decision.action,
+            category=response.final_decision.category,
+            priority=response.final_decision.priority,
+            duplicate_id=response.final_decision.duplicate_id,
+            escalation_reason=response.final_decision.escalation_reason,
+        )
+        if record and record.get("id") and not record.get("id").startswith("LINK-"):
+            response.ticket_id = record["id"]
+
+        # Persist runtime Agent Run
+        persist_agent_run(
+            ticket_id=response.ticket_id,
+            input_text=response.ticket_text,
+            status=response.status,
+            action=response.final_decision.action,
+            category=response.final_decision.category,
+            priority=response.final_decision.priority,
+            duration_seconds=duration_sec,
+            trajectory=[step.model_dump() for step in response.trajectory],
+            escalation_reason=response.final_decision.escalation_reason,
+            duplicate_id=response.final_decision.duplicate_id,
+        )
+
+        return response
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"V3 triage agent error: {exc}") from exc
+
+
+@router.get("/open-tickets", response_model=List[OpenTicketItem])
+def get_open_tickets_v3() -> List[OpenTicketItem]:
+    """Retrieve active open incidents merged from seeded and runtime tickets."""
+    try:
+        return get_all_open_tickets()
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch open tickets: {exc}"
+        ) from exc
+
+
+@router.get("/agent-runs", response_model=List[AgentRunItem])
+def get_agent_runs_v3() -> List[AgentRunItem]:
+    """Retrieve all active agent investigation run traces."""
+    try:
+        runs = get_runtime_runs()
+        return sorted(runs, key=lambda x: x.get("created_at", ""), reverse=True)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch agent runs: {exc}"
+        ) from exc
 
 
 @router.get("/escalations", response_model=List[Any])
@@ -95,6 +163,10 @@ def submit_human_review(
         human_action=request.human_action,
         reviewer_notes=request.reviewer_notes,
     )
+
+    # Sync runtime ticket store and runtime run store
+    update_runtime_ticket_status(ticket_id, request.human_action)
+    append_human_review_to_run(ticket_id, request.human_action, request.reviewer_notes)
 
     proposed_cls = record.get("proposed_classification") or {}
     human_rev = record.get("human_review")

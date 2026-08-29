@@ -1,6 +1,8 @@
 import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 from backend.main import app
@@ -9,6 +11,41 @@ client = TestClient(app)
 
 
 class TestStabilizationRegression(unittest.TestCase):
+
+    def setUp(self):
+        """Set up isolated temporary directory for JSON stores."""
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.tmp_path = Path(self.temp_dir.name)
+
+        (self.tmp_path / "runtime_tickets").mkdir(parents=True, exist_ok=True)
+        (self.tmp_path / "runtime_runs").mkdir(parents=True, exist_ok=True)
+        (self.tmp_path / "escalations").mkdir(parents=True, exist_ok=True)
+
+        self.t_file = self.tmp_path / "runtime_tickets" / "runtime_tickets.json"
+        self.r_file = self.tmp_path / "runtime_runs" / "runtime_runs.json"
+        self.e_file = self.tmp_path / "escalations" / "escalations.json"
+
+        self.t_file.write_text("[]", encoding="utf-8")
+        self.r_file.write_text("[]", encoding="utf-8")
+        self.e_file.write_text("[]", encoding="utf-8")
+
+        self.patchers = [
+            patch("backend.tools.runtime_ticket_tool.RUNTIME_TICKETS_DIR", self.tmp_path / "runtime_tickets"),
+            patch("backend.tools.runtime_ticket_tool.RUNTIME_TICKETS_FILE", self.t_file),
+            patch("backend.tools.runtime_run_tool.RUNTIME_RUNS_DIR", self.tmp_path / "runtime_runs"),
+            patch("backend.tools.runtime_run_tool.RUNTIME_RUNS_FILE", self.r_file),
+            patch("backend.tools.escalation_tool.ESCALATIONS_DIR", self.tmp_path / "escalations"),
+            patch("backend.tools.escalation_tool.ESCALATIONS_FILE", self.e_file),
+        ]
+
+        for p in self.patchers:
+            p.start()
+
+    def tearDown(self):
+        """Restore patchers and cleanup temporary directory."""
+        for p in self.patchers:
+            p.stop()
+        self.temp_dir.cleanup()
 
     def test_01_normal_ticket_autoroute(self):
         """TEST 1: Normal ticket -> classification -> valid routing."""
@@ -83,4 +120,3 @@ class TestStabilizationRegression(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

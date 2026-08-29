@@ -349,13 +349,23 @@ function HumanReviewModal({ onClose, onDecide }: { onClose: () => void; onDecide
     { id: "moreinfo", label: "Ask User for More Information", desc: "Request clarification on scope", color: "zinc" },
   ];
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!selected) return;
     setSubmitted(true);
+    const actionKey = selected === "moreinfo" ? "ask_more_info" : selected;
+    try {
+      await fetch("/api/v3/review/EVAL-008", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ human_action: actionKey }),
+      });
+    } catch {
+      // Ignore network errors in local static view
+    }
     const msg = selected === "confirm"
       ? "Human reviewer confirmed: Network / High"
       : selected === "reassign"
-      ? "Human reviewer confirmed: Network / Medium"
+      ? "Human reviewer override: Reassigned"
       : "Human reviewer requested more information from user.";
     setTimeout(() => { onDecide(msg); onClose(); }, 800);
   }

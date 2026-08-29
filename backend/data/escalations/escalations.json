@@ -217,7 +217,67 @@
     "proposed_classification": null,
     "duplicate_info": null,
     "timestamp": "2026-08-29T11:36:34.270096+00:00",
-    "status": "escalated"
+    "status": "completed",
+    "human_review": {
+      "human_action": "confirm",
+      "status": "completed",
+      "timestamp": "2026-08-29T12:39:28.809383+00:00",
+      "reviewer_notes": null
+    },
+    "trajectory": [
+      {
+        "step_number": 1,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'confirm'.",
+        "input": {
+          "human_action": "confirm",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "completed",
+          "timestamp": "2026-08-29T12:36:37.480900+00:00"
+        }
+      },
+      {
+        "step_number": 2,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'reassign'.",
+        "input": {
+          "human_action": "reassign",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "reassigned",
+          "timestamp": "2026-08-29T12:36:37.520827+00:00"
+        }
+      },
+      {
+        "step_number": 3,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'ask_more_info'.",
+        "input": {
+          "human_action": "ask_more_info",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "waiting_for_info",
+          "timestamp": "2026-08-29T12:36:37.562366+00:00"
+        }
+      },
+      {
+        "step_number": 4,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'confirm'.",
+        "input": {
+          "human_action": "confirm",
+          "reviewer_notes": null
+        },
+        "output": {
+          "status": "completed",
+          "timestamp": "2026-08-29T12:39:28.809383+00:00"
+        }
+      }
+    ]
   },
   {
     "escalation_id": "ESC-AD59B855",
@@ -484,5 +544,120 @@
     },
     "timestamp": "2026-08-29T12:26:38.916550+00:00",
     "status": "escalated"
+  },
+  {
+    "escalation_id": "ESC-EE8EFE90",
+    "ticket_id": "E2E-TEST",
+    "ticket_text": "I cannot get into the system and I need it for work.",
+    "reason": "Verifier disagreement: The ticket uses vague wording ('cannot get into the system') without naming a specific system or application. 'It's for work' does not provide sufficient evidence to determine the appropriate category or priority.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "High"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1001",
+          "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+          "category": "Network",
+          "priority": "High",
+          "similarity_score": 0.5622
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5289
+        },
+        {
+          "id": "INC-1006",
+          "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.5077
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [
+      {
+        "step_number": 1,
+        "action": "human_review",
+        "reason": "Human reviewer selected action 'confirm'.",
+        "input": {
+          "human_action": "confirm",
+          "reviewer_notes": "Confirmed by tier 2 engineer."
+        },
+        "output": {
+          "status": "completed",
+          "timestamp": "2026-08-29T12:37:29.508525+00:00"
+        }
+      }
+    ],
+    "timestamp": "2026-08-29T12:37:29.464788+00:00",
+    "status": "completed",
+    "human_review": {
+      "human_action": "confirm",
+      "status": "completed",
+      "timestamp": "2026-08-29T12:37:29.508525+00:00",
+      "reviewer_notes": "Confirmed by tier 2 engineer."
+    }
+  },
+  {
+    "escalation_id": "ESC-4232DB7C",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "test",
+    "reason": "Vague request with no specific issue described.",
+    "proposed_classification": null,
+    "duplicate_info": null,
+    "trajectory": [],
+    "timestamp": "2026-08-29T12:38:55.955578+00:00",
+    "status": "escalated",
+    "human_review": null
+  },
+  {
+    "escalation_id": "ESC-F4ACE5E4",
+    "ticket_id": "UNTRACKED",
+    "ticket_text": "test",
+    "reason": "Verifier disagreement: The ticket text 'test' is vague and contains no explicit evidence naming a specific system, application, peripheral, or network resource. It does not support the proposed category or priority.",
+    "proposed_classification": {
+      "category": "Account Access",
+      "priority": "Low"
+    },
+    "duplicate_info": {
+      "is_duplicate_found": false,
+      "best_match": null,
+      "top_matches": [
+        {
+          "id": "INC-1010",
+          "text": "A user's laptop keyboard has several keys that are no longer responding.",
+          "category": "Hardware",
+          "priority": "Low",
+          "similarity_score": 0.4784
+        },
+        {
+          "id": "INC-1002",
+          "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+          "category": "Account Access",
+          "priority": "High",
+          "similarity_score": 0.4478
+        },
+        {
+          "id": "INC-1007",
+          "text": "External monitors connected through USB-C docks are displaying a black screen.",
+          "category": "Hardware",
+          "priority": "Medium",
+          "similarity_score": 0.4326
+        }
+      ],
+      "threshold_used": 0.8
+    },
+    "trajectory": [],
+    "timestamp": "2026-08-29T12:39:28.768012+00:00",
+    "status": "escalated",
+    "human_review": null
   }
 ]

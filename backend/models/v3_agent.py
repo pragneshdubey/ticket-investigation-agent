@@ -1,6 +1,8 @@
 from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field
 
+HumanActionEnum = Literal["confirm", "reassign", "ask_more_info"]
+
 
 class VerificationResult(BaseModel):
     agreement: bool = Field(description="Whether the verifier confirmed the proposed classification.")
@@ -14,6 +16,7 @@ class V3TrajectoryStep(BaseModel):
         "search_duplicate_tickets",
         "verify_classification",
         "escalate_to_human",
+        "human_review",
         "final_decision",
     ]
     reason: str = Field(description="Concise observable justification for taking this action.")
@@ -42,3 +45,31 @@ class V3TriageResponse(BaseModel):
     final_decision: V3FinalDecision
     trajectory: List[V3TrajectoryStep]
 
+
+class HumanReviewRequest(BaseModel):
+    human_action: HumanActionEnum = Field(
+        description="The action selected by the human reviewer: 'confirm', 'reassign', or 'ask_more_info'."
+    )
+    reviewer_notes: Optional[str] = Field(
+        default=None, description="Optional notes or comments from the reviewer."
+    )
+
+
+class HumanReviewRecord(BaseModel):
+    human_action: HumanActionEnum
+    status: str
+    timestamp: str
+    reviewer_notes: Optional[str] = None
+
+
+class HumanReviewDetails(BaseModel):
+    ticket_id: str
+    ticket_text: str
+    proposed_category: Optional[str] = None
+    proposed_priority: Optional[str] = None
+    escalation_reason: Optional[str] = None
+    status: str
+    available_actions: List[str] = Field(
+        default_factory=lambda: ["confirm", "reassign", "ask_more_info"]
+    )
+    review_record: Optional[HumanReviewRecord] = None

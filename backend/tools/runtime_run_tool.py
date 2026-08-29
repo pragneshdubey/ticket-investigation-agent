@@ -1,5 +1,6 @@
 import json
 import re
+import threading
 import time
 from datetime import datetime
 from pathlib import Path
@@ -8,6 +9,8 @@ from typing import Any, Dict, List, Optional
 ROOT_DIR = Path(__file__).resolve().parents[2]
 RUNTIME_RUNS_DIR = ROOT_DIR / "backend" / "data" / "runtime_runs"
 RUNTIME_RUNS_FILE = RUNTIME_RUNS_DIR / "runtime_runs.json"
+
+_run_lock = threading.Lock()
 
 
 def _ensure_runtime_runs_dir() -> None:
@@ -65,7 +68,8 @@ def persist_agent_run(
     """
     Persist a runtime investigation run resulting from a POST /api/v3/triage call.
     """
-    runs = get_runtime_runs()
+    with _run_lock:
+        runs = get_runtime_runs()
 
     # Check if a run for this ticket_id already exists
     existing_run = None
@@ -111,7 +115,8 @@ def append_human_review_to_run(
     """
     Append human review decision step to the corresponding Agent Run.
     """
-    runs = get_runtime_runs()
+    with _run_lock:
+        runs = get_runtime_runs()
 
     target_run = None
     for run in runs:

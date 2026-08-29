@@ -577,6 +577,7 @@ function HumanReviewModal({
 }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const actions = [
     { id: "confirm", label: "Confirm Decision", desc: `Accept agent proposal: ${proposedCategory} / ${proposedPriority}`, color: "emerald" },
@@ -585,24 +586,42 @@ function HumanReviewModal({
   ];
 
   async function handleSubmit() {
-    if (!selected) return;
+    if (!selected || submitted) return;
+    setErrorMsg(null);
+
+    if (!ticketId || !ticketId.trim() || ticketId === "UNTRACKED") {
+      setErrorMsg("Cannot submit review: Ticket ID is missing or untracked.");
+      return;
+    }
+
     setSubmitted(true);
     const actionKey = selected === "moreinfo" ? "ask_more_info" : selected;
     try {
-      await fetch(`/api/v3/review/${ticketId || "EVAL-008"}`, {
+      const res = await fetch(`/api/v3/review/${ticketId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ human_action: actionKey }),
       });
-    } catch {
-      // Ignore network error in fallback UI
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        setErrorMsg(errData.detail || `Human review failed (HTTP ${res.status}).`);
+        setSubmitted(false);
+        return;
+      }
+
+      const msg = selected === "confirm"
+        ? `Human reviewer confirmed: ${proposedCategory} / ${proposedPriority}`
+        : selected === "reassign"
+        ? "Human reviewer override: Ticket reassigned"
+        : "Human reviewer requested more information from user.";
+
+      onDecide(msg);
+      onClose();
+    } catch (err: any) {
+      setErrorMsg(`Network error: ${err.message || "Failed to connect to backend."}`);
+      setSubmitted(false);
     }
-    const msg = selected === "confirm"
-      ? `Human reviewer confirmed: ${proposedCategory} / ${proposedPriority}`
-      : selected === "reassign"
-      ? "Human reviewer override: Ticket reassigned"
-      : "Human reviewer requested more information from user.";
-    setTimeout(() => { onDecide(msg); onClose(); }, 800);
   }
 
   return (
@@ -681,6 +700,11 @@ function HumanReviewModal({
         </div>
 
         <div className="px-6 pb-6">
+          {errorMsg && (
+            <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-xs text-red-300">
+              {errorMsg}
+            </div>
+          )}
           <button
             onClick={handleSubmit}
             disabled={!selected || submitted}
@@ -947,7 +971,7 @@ function InvestigationScreen({
       {reviewOpen && (
         <HumanReviewModal
           ticketText={triageData?.ticket_text || ticket}
-          ticketId={triageData?.ticket_id || "EVAL-008"}
+          ticketId={triageData?.ticket_id || ""}
           proposedCategory={triageData?.final_decision?.category || "Account Access"}
           proposedPriority={triageData?.final_decision?.priority || "High"}
           escalationReason={triageData?.final_decision?.escalation_reason || "Verifier disagreement detected"}

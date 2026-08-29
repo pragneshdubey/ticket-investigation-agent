@@ -1,4 +1,5 @@
 import json
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -7,6 +8,8 @@ import uuid
 ROOT_DIR = Path(__file__).resolve().parents[2]
 ESCALATIONS_DIR = ROOT_DIR / "backend" / "data" / "escalations"
 ESCALATIONS_FILE = ESCALATIONS_DIR / "escalations.json"
+
+_escalation_lock = threading.Lock()
 
 
 def escalate_to_human(
@@ -19,19 +22,9 @@ def escalate_to_human(
 ) -> Dict[str, Any]:
     """
     Escalate an ambiguous or complex IT ticket to human review.
-
-    Args:
-        ticket_text: Text content of the ticket.
-        reason: Justification for human escalation.
-        ticket_id: Optional unique identifier for the ticket.
-        proposed_classification: Partial or full classification if attempted.
-        duplicate_info: Duplicate search findings if available.
-        trajectory: Step-by-step observable trajectory up to escalation.
-
-    Returns:
-        Structured escalation record confirmation.
     """
-    ESCALATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    with _escalation_lock:
+        ESCALATIONS_DIR.mkdir(parents=True, exist_ok=True)
 
     escalation_id = f"ESC-{uuid.uuid4().hex[:8].upper()}"
     record = {
@@ -98,25 +91,13 @@ def record_human_review(
 ) -> Dict[str, Any]:
     """
     Record a human review decision for an escalated ticket.
-
-    Actions & Status semantics:
-    - "confirm" -> status: "completed"
-    - "reassign" -> status: "reassigned"
-    - "ask_more_info" -> status: "waiting_for_info"
-
-    Args:
-        ticket_id: Unique ticket or escalation identifier.
-        human_action: One of "confirm", "reassign", "ask_more_info".
-        reviewer_notes: Optional notes from human reviewer.
-
-    Returns:
-        Updated escalation record containing the human review outcome.
     """
-    status_map = {
-        "confirm": "completed",
-        "reassign": "reassigned",
-        "ask_more_info": "waiting_for_info",
-    }
+    with _escalation_lock:
+        status_map = {
+            "confirm": "completed",
+            "reassign": "reassigned",
+            "ask_more_info": "waiting_for_info",
+        }
     review_status = status_map.get(human_action, "completed")
     timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -139,6 +120,15 @@ def record_human_review(
         if item.get("ticket_id") == ticket_id or item.get("escalation_id") == ticket_id:
             target_record = item
             break
+
+    if target_record and (
+        target_record.get("human_review") is not None
+        or target_record.get("status") in ["completed", "reassigned", "waiting_for_info"]
+    ):
+        curr_status = target_record.get("status", "already reviewed")
+        raise ValueError(
+            f"Ticket '{ticket_id}' has already been reviewed (current status: {curr_status})."
+        )
 
     if not target_record:
         # Create fallback record if ticket_id was not previously persisted

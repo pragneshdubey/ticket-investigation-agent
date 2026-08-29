@@ -1,7 +1,7 @@
-# V3 Verification Stage Documentation
+# V3 Adversarial Verification Stage Documentation
 
 ## 1. Overview
-ResolveAI V3 introduces an independent Verification Stage (`verify_classification()`) to validate proposed classification labels before tickets are auto-routed. If the verifier agrees, the ticket is routed or linked to a duplicate incident. If the verifier disagrees, the ticket is **immediately escalated to human support** without automatic retry loops.
+ResolveAI V3 introduces an Adversarial Verification Pass (`verify_classification()`) to validate proposed classification labels before tickets are auto-routed. The verifier runs as a separate structured verification pass using a stricter rubric. (Note: The verifier currently uses the same base model family, `gemma3:4b`, executing an adversarial check under a strict safety rubric). If the verification pass agrees, the ticket is routed or linked to a duplicate incident. If the verifier disagrees, the ticket is **immediately escalated to human support** without automatic retry loops.
 
 ---
 
@@ -15,7 +15,7 @@ Step 1: classify_ticket() ──► Proposed Category & Priority
          │
 Step 2: search_duplicate_tickets() ──► Open Incident Duplicate Match
          │
-Step 3: verify_classification() ──► Independent Ollama (gemma3:4b) Validation
+Step 3: verify_classification() ──► Adversarial Verification Pass (gemma3:4b strict rubric)
          │
          ├───► Agreement == True  ──► Final Decision (auto_route / duplicate_route)
          └───► Agreement == False ──► Immediate escalate_to_human() (NO retry loop)

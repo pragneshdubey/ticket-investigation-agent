@@ -158,11 +158,14 @@ def submit_human_review(
 ) -> HumanReviewDetails:
     """Submit a real human review decision ('confirm', 'reassign', or 'ask_more_info')."""
     # Pydantic automatically validates human_action enum
-    record = record_human_review(
-        ticket_id=ticket_id,
-        human_action=request.human_action,
-        reviewer_notes=request.reviewer_notes,
-    )
+    try:
+        record = record_human_review(
+            ticket_id=ticket_id,
+            human_action=request.human_action,
+            reviewer_notes=request.reviewer_notes,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
 
     # Sync runtime ticket store and runtime run store
     update_runtime_ticket_status(ticket_id, request.human_action)

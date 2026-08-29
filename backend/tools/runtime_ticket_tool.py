@@ -1,5 +1,6 @@
 import json
 import re
+import threading
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -8,6 +9,8 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 OPEN_TICKETS_FILE = ROOT_DIR / "backend" / "data" / "open_tickets" / "open_tickets.json"
 RUNTIME_TICKETS_DIR = ROOT_DIR / "backend" / "data" / "runtime_tickets"
 RUNTIME_TICKETS_FILE = RUNTIME_TICKETS_DIR / "runtime_tickets.json"
+
+_ticket_lock = threading.Lock()
 
 
 def _ensure_runtime_dir() -> None:
@@ -76,7 +79,8 @@ def persist_triage_result(
     """
     Persist the runtime ticket resulting from a live V3 triage investigation.
     """
-    tickets = get_runtime_tickets()
+    with _ticket_lock:
+        tickets = get_runtime_tickets()
 
     target_id = (
         ticket_id
@@ -161,7 +165,8 @@ def persist_triage_result(
 
 def update_runtime_ticket_status(ticket_id: str, human_action: str) -> Optional[Dict[str, Any]]:
     """Update runtime ticket status when human review decision is submitted."""
-    tickets = get_runtime_tickets()
+    with _ticket_lock:
+        tickets = get_runtime_tickets()
     status_map = {
         "confirm": "Completed",
         "reassign": "Reassigned",

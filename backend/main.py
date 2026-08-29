@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from backend.api.v1_router import router as v1_router
 from backend.models.baseline import BaselineClassification
 from backend.services.baseline_classifier import classify_ticket
 
@@ -9,6 +10,8 @@ app = FastAPI(
     description="Agentic IT Support Ticket Triage System",
     version="0.1.0"
 )
+
+app.include_router(v1_router)
 
 
 class BaselineClassifyRequest(BaseModel):
@@ -25,4 +28,4 @@ def health_check():
     return {
         "status": "running",
         "message": "ResolveAI backend is running"
-    }
+    }

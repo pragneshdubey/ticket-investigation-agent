@@ -1,0 +1,1733 @@
+{
+  "evaluator": "V1 Triage Agent Evaluator",
+  "models": {
+    "generation": "gemma3:4b",
+    "embeddings": "nomic-embed-text"
+  },
+  "duplicate_threshold": 0.8,
+  "metrics": {
+    "tickets_evaluated": 15,
+    "labeled_classification_tickets": 4,
+    "classification_accuracy": 1.0,
+    "priority_accuracy": 1.0,
+    "exact_classification_accuracy": 1.0,
+    "duplicate_metrics": {
+      "expected_duplicates": 3,
+      "predicted_duplicates": 4,
+      "correct_duplicates": 3,
+      "duplicate_precision": 0.75,
+      "duplicate_recall": 1.0
+    },
+    "escalation_metrics": {
+      "expected_escalations": 4,
+      "predicted_escalations": 11,
+      "correct_escalations": 4,
+      "escalation_precision": 0.3636,
+      "escalation_recall": 1.0,
+      "escalation_accuracy": 0.5333
+    },
+    "safety_metrics": {
+      "ambiguous_tickets": 4,
+      "unsafe_autoroutes": 0,
+      "unsafe_autoroute_rate": 0.0
+    }
+  },
+  "results": [
+    {
+      "ticket_id": "EVAL-001",
+      "ticket_type": "clean",
+      "ticket_text": "I cannot log into my company account even though my password is correct.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Multiple similar high-priority account access tickets exist; user unable to log in despite correct password."
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Ticket describes account access issue with a known correct password.",
+          "input": {
+            "text": "I cannot log into my company account even though my password is correct."
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority account access issue - check for existing similar incidents.",
+          "input": {
+            "text": "I cannot log into my company account even though my password is correct."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.7749
+              },
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.661
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.6397
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "Multiple similar high-priority account access tickets exist; user unable to log in despite correct password.",
+          "input": {
+            "ticket_id": "EVAL-001",
+            "text": "I cannot log into my company account even though my password is correct.",
+            "reason": "Multiple similar high-priority account access tickets exist; user unable to log in despite correct password.",
+            "proposed_classification": {
+              "category": "Account Access",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.7749
+                },
+                {
+                  "id": "INC-1002",
+                  "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.661
+                },
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.6397
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-31C81B5D",
+            "reason": "Multiple similar high-priority account access tickets exist; user unable to log in despite correct password.",
+            "ticket_id": "EVAL-001",
+            "timestamp": "2026-08-29T11:34:58.588641+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-002",
+      "ticket_type": "clean",
+      "ticket_text": "My laptop does not turn on when I press the power button.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Hardware issue - laptop not powering on. No similar incidents found."
+      },
+      "expected": {
+        "category": "Hardware",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Specific hardware issue requiring categorization and priority.",
+          "input": {
+            "text": "My laptop does not turn on when I press the power button."
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority hardware issue; check for existing similar incidents.",
+          "input": {
+            "text": "My laptop does not turn on when I press the power button."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.665
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.6636
+              },
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.502
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "No relevant duplicates found, high priority hardware issue; requires human investigation.",
+          "input": {
+            "ticket_id": "EVAL-002",
+            "text": "My laptop does not turn on when I press the power button.",
+            "reason": "Hardware issue - laptop not powering on. No similar incidents found.",
+            "proposed_classification": {
+              "category": "Hardware",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.665
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.6636
+                },
+                {
+                  "id": "INC-1007",
+                  "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                  "category": "Hardware",
+                  "priority": "Medium",
+                  "similarity_score": 0.502
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-F8AD4059",
+            "reason": "Hardware issue - laptop not powering on. No similar incidents found.",
+            "ticket_id": "EVAL-002",
+            "timestamp": "2026-08-29T11:35:14.284188+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-003",
+      "ticket_type": "clean",
+      "ticket_text": "The office Wi-Fi is extremely slow and websites take a long time to load.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Network",
+        "priority": "Medium",
+        "duplicate_id": "INC-1005",
+        "escalation_reason": null
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": false,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "search_duplicate_tickets",
+          "reason": "User reports network performance issues - investigating for duplicates.",
+          "input": {
+            "text": "The office Wi-Fi is extremely slow and websites take a long time to load."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1005",
+              "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+              "category": "Network",
+              "priority": "Medium",
+              "similarity_score": 0.855
+            },
+            "top_matches": [
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.855
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.6082
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5453
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "classify_ticket",
+          "reason": "Duplicate ticket identified - classifying the issue.",
+          "input": {
+            "text": "The office Wi-Fi is extremely slow and websites take a long time to load."
+          },
+          "output": {
+            "category": "Network",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "final_decision",
+          "reason": "Issue classified and prioritized. No further action required.",
+          "input": {
+            "status": "duplicate_linked",
+            "classification": {
+              "category": "Network",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": true,
+              "best_match": {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.855
+              },
+              "top_matches": [
+                {
+                  "id": "INC-1005",
+                  "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                  "category": "Network",
+                  "priority": "Medium",
+                  "similarity_score": 0.855
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.6082
+                },
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.5453
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Network",
+            "priority": "Medium",
+            "duplicate_id": "INC-1005",
+            "escalation_reason": null
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-004",
+      "ticket_type": "clean",
+      "ticket_text": "Slack closes immediately every time I try to open it.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Software",
+        "priority": "Medium",
+        "duplicate_id": "INC-1009",
+        "escalation_reason": null
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1009",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Specific software issue (Slack) with a clear symptom (immediate closure).",
+          "input": {
+            "text": "Slack closes immediately every time I try to open it."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority software issue \u2013 check for existing incidents.",
+          "input": {
+            "text": "Slack closes immediately every time I try to open it."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1009",
+              "text": "Slack desktop application fails to launch and closes immediately.",
+              "category": "Software",
+              "priority": "Medium",
+              "similarity_score": 0.8073
+            },
+            "top_matches": [
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8073
+              },
+              {
+                "id": "INC-1004",
+                "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.6281
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.5235
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "final_decision",
+          "reason": "Duplicate ticket (INC-1009) found with high similarity. Prioritization remains High due to user impact.",
+          "input": {
+            "status": "duplicate_linked",
+            "classification": {
+              "category": "Software",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": true,
+              "best_match": {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8073
+              },
+              "top_matches": [
+                {
+                  "id": "INC-1009",
+                  "text": "Slack desktop application fails to launch and closes immediately.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.8073
+                },
+                {
+                  "id": "INC-1004",
+                  "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.6281
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.5235
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Software",
+            "priority": "Medium",
+            "duplicate_id": "INC-1009",
+            "escalation_reason": null
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-005",
+      "ticket_type": "messy",
+      "ticket_text": "cant login accnt keeps saying auth failed pls help",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Multiple Account Access High priority tickets exist with varying descriptions; requires human intervention for diagnosis and resolution."
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Vague description of login issue requires categorization and priority assessment.",
+          "input": {
+            "text": "cant login accnt keeps saying auth failed pls help"
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority Account Access issue \u2013 search for similar reported problems.",
+          "input": {
+            "text": "cant login accnt keeps saying auth failed pls help"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6772
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.582
+              },
+              {
+                "id": "INC-1008",
+                "text": "The company VPN disconnects repeatedly during active sessions.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.5209
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "Multiple Account Access High priority tickets exist with varying descriptions; requires human intervention for diagnosis and resolution.",
+          "input": {
+            "ticket_id": "EVAL-005",
+            "text": "cant login accnt keeps saying auth failed pls help",
+            "reason": "Multiple Account Access High priority tickets exist with varying descriptions; requires human intervention for diagnosis and resolution.",
+            "proposed_classification": {
+              "category": "Account Access",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1002",
+                  "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.6772
+                },
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.582
+                },
+                {
+                  "id": "INC-1008",
+                  "text": "The company VPN disconnects repeatedly during active sessions.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.5209
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-41B961C8",
+            "reason": "Multiple Account Access High priority tickets exist with varying descriptions; requires human intervention for diagnosis and resolution.",
+            "ticket_id": "EVAL-005",
+            "timestamp": "2026-08-29T11:35:59.364206+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-006",
+      "ticket_type": "messy",
+      "ticket_text": "wifi sooo slow since mornin cant load stuff properly",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Ticket is a network issue with a vague description ('swoo slow'). No duplicates found and the description lacks specific details for classification."
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Ticket describes a network issue with a specific symptom (slow wifi).",
+          "input": {
+            "text": "wifi sooo slow since mornin cant load stuff properly"
+          },
+          "output": {
+            "category": "Network",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Ticket is a network issue and we should check for existing duplicates.",
+          "input": {
+            "text": "wifi sooo slow since mornin cant load stuff properly"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.6742
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.4724
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.4702
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "Ticket is a network issue with a vague description ('swoo slow'). No duplicates found and the description lacks specific details for classification.",
+          "input": {
+            "ticket_id": "EVAL-006",
+            "text": "wifi sooo slow since mornin cant load stuff properly",
+            "reason": "Ticket is a network issue with a vague description ('swoo slow'). No duplicates found and the description lacks specific details for classification.",
+            "proposed_classification": {
+              "category": "Network",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1005",
+                  "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                  "category": "Network",
+                  "priority": "Medium",
+                  "similarity_score": 0.6742
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.4724
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.4702
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-2B33C547",
+            "reason": "Ticket is a network issue with a vague description ('swoo slow'). No duplicates found and the description lacks specific details for classification.",
+            "ticket_id": "EVAL-006",
+            "timestamp": "2026-08-29T11:36:15.042346+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-007",
+      "ticket_type": "messy",
+      "ticket_text": "my lapptop screen is black but its still making sound",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "The issue is described vaguely, and there are no closely related duplicate tickets. Further investigation requires a human to gather more details about the laptop and troubleshooting steps."
+      },
+      "expected": {
+        "category": "Hardware",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Ticket describes a hardware issue (black screen) with a related audio component.",
+          "input": {
+            "text": "my lapptop screen is black but its still making sound"
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority hardware issue warrants searching for similar reports.",
+          "input": {
+            "text": "my lapptop screen is black but its still making sound"
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.6399
+              },
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.5521
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.4865
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "The issue is described vaguely, and there are no closely related duplicate tickets. Further investigation requires a human to gather more details about the laptop and troubleshooting steps.",
+          "input": {
+            "ticket_id": "EVAL-007",
+            "text": "my lapptop screen is black but its still making sound",
+            "reason": "The issue is described vaguely, and there are no closely related duplicate tickets. Further investigation requires a human to gather more details about the laptop and troubleshooting steps.",
+            "proposed_classification": {
+              "category": "Hardware",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1007",
+                  "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                  "category": "Hardware",
+                  "priority": "Medium",
+                  "similarity_score": 0.6399
+                },
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.5521
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.4865
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-8716D73A",
+            "reason": "The issue is described vaguely, and there are no closely related duplicate tickets. Further investigation requires a human to gather more details about the laptop and troubleshooting steps.",
+            "ticket_id": "EVAL-007",
+            "timestamp": "2026-08-29T11:36:30.647034+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-008",
+      "ticket_type": "ambiguous",
+      "ticket_text": "I cannot get into the system and I need it for work.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Vague description of issue, unclear cause (system login). Requires human investigation."
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "escalate_to_human",
+          "reason": "Vague description of issue, unclear cause (system login). Requires human investigation.",
+          "input": {
+            "ticket_id": "EVAL-008",
+            "text": "I cannot get into the system and I need it for work.",
+            "reason": "Vague description of issue, unclear cause (system login). Requires human investigation.",
+            "proposed_classification": null,
+            "duplicate_info": null
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-B929ABD0",
+            "reason": "Vague description of issue, unclear cause (system login). Requires human investigation.",
+            "ticket_id": "EVAL-008",
+            "timestamp": "2026-08-29T11:36:34.270096+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-009",
+      "ticket_type": "ambiguous",
+      "ticket_text": "Something stopped working after lunch and now I cannot continue my work.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Vague description of the issue with no specifics regarding the stopped working item or the nature of the problem."
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "escalate_to_human",
+          "reason": "Vague description of the issue with no specifics regarding the stopped working item or the nature of the problem.",
+          "input": {
+            "ticket_id": "EVAL-009",
+            "text": "Something stopped working after lunch and now I cannot continue my work.",
+            "reason": "Vague description of the issue with no specifics regarding the stopped working item or the nature of the problem.",
+            "proposed_classification": null,
+            "duplicate_info": null
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-AD59B855",
+            "reason": "Vague description of the issue with no specifics regarding the stopped working item or the nature of the problem.",
+            "ticket_id": "EVAL-009",
+            "timestamp": "2026-08-29T11:36:37.799867+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-010",
+      "ticket_type": "multi_issue",
+      "ticket_text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Multi-issue ticket involving VPN and Slack, requiring further investigation."
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "escalate_to_human",
+          "reason": "Multi-issue ticket involving VPN and Slack, requiring further investigation.",
+          "input": {
+            "ticket_id": "EVAL-010",
+            "text": "My VPN keeps disconnecting and Slack is also crashing whenever I reconnect.",
+            "reason": "Multi-issue ticket involving VPN and Slack, requiring further investigation.",
+            "proposed_classification": null,
+            "duplicate_info": null
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-7E162473",
+            "reason": "Multi-issue ticket involving VPN and Slack, requiring further investigation.",
+            "ticket_id": "EVAL-010",
+            "timestamp": "2026-08-29T11:36:41.271168+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-011",
+      "ticket_type": "multi_issue",
+      "ticket_text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Ticket describes both Hardware and Network issues, no clear duplicate found, requires human assessment for diagnosis."
+      },
+      "expected": {
+        "category": null,
+        "priority": null,
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": true
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Ticket describes both hardware (screen flickering) and network (Wi-Fi connectivity) issues.",
+          "input": {
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi."
+          },
+          "output": {
+            "category": "Hardware",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "High priority Hardware issue; searching for similar reported problems.",
+          "input": {
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.6485
+              },
+              {
+                "id": "INC-1005",
+                "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                "category": "Network",
+                "priority": "Medium",
+                "similarity_score": 0.6302
+              },
+              {
+                "id": "INC-1007",
+                "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                "category": "Hardware",
+                "priority": "Medium",
+                "similarity_score": 0.57
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "Ticket describes both Hardware and Network issues, no clear duplicate found, requires human assessment for diagnosis.",
+          "input": {
+            "ticket_id": "EVAL-011",
+            "text": "My laptop screen is flickering and I am also unable to connect to the office Wi-Fi.",
+            "reason": "Ticket describes both Hardware and Network issues, no clear duplicate found, requires human assessment for diagnosis.",
+            "proposed_classification": {
+              "category": "Hardware",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.6485
+                },
+                {
+                  "id": "INC-1005",
+                  "text": "The office Wi-Fi connection is extremely slow for users on the third floor.",
+                  "category": "Network",
+                  "priority": "Medium",
+                  "similarity_score": 0.6302
+                },
+                {
+                  "id": "INC-1007",
+                  "text": "External monitors connected through USB-C docks are displaying a black screen.",
+                  "category": "Hardware",
+                  "priority": "Medium",
+                  "similarity_score": 0.57
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-DEA34A7E",
+            "reason": "Ticket describes both Hardware and Network issues, no clear duplicate found, requires human assessment for diagnosis.",
+            "ticket_id": "EVAL-011",
+            "timestamp": "2026-08-29T11:36:55.972506+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-012",
+      "ticket_type": "true_duplicate",
+      "ticket_text": "Nobody on my team can connect to the company VPN or access internal systems.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Network",
+        "priority": "High",
+        "duplicate_id": "INC-1001",
+        "escalation_reason": null
+      },
+      "expected": {
+        "category": "Network",
+        "priority": "High",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1001",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "search_duplicate_tickets",
+          "reason": "Multiple users experiencing VPN and internal system access issues.",
+          "input": {
+            "text": "Nobody on my team can connect to the company VPN or access internal systems."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1001",
+              "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+              "category": "Network",
+              "priority": "High",
+              "similarity_score": 0.8586
+            },
+            "top_matches": [
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.8586
+              },
+              {
+                "id": "INC-1008",
+                "text": "The company VPN disconnects repeatedly during active sessions.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.7251
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6031
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "classify_ticket",
+          "reason": "Duplicate ticket found, likely a network issue.",
+          "input": {
+            "text": "Nobody on my team can connect to the company VPN or access internal systems."
+          },
+          "output": {
+            "category": "Network",
+            "priority": "High"
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "final_decision",
+          "reason": "Ticket classified and prioritized based on tool output.",
+          "input": {
+            "status": "duplicate_linked",
+            "classification": {
+              "category": "Network",
+              "priority": "High"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": true,
+              "best_match": {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.8586
+              },
+              "top_matches": [
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.8586
+                },
+                {
+                  "id": "INC-1008",
+                  "text": "The company VPN disconnects repeatedly during active sessions.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.7251
+                },
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.6031
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Network",
+            "priority": "High",
+            "duplicate_id": "INC-1001",
+            "escalation_reason": null
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-013",
+      "ticket_type": "true_duplicate",
+      "ticket_text": "Outlook crashes whenever I open an email with a large attachment.",
+      "status": "duplicate_linked",
+      "predicted": {
+        "action": "duplicate_route",
+        "category": "Software",
+        "priority": "Medium",
+        "duplicate_id": "INC-1004",
+        "escalation_reason": null
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": true,
+        "duplicate_of": "INC-1004",
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": true,
+        "priority_correct": true,
+        "exact_classification_correct": true,
+        "duplicate_correct": true,
+        "escalation_correct": true
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Specific software issue - potential software bug.",
+          "input": {
+            "text": "Outlook crashes whenever I open an email with a large attachment."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Medium priority software issue - check for existing solutions.",
+          "input": {
+            "text": "Outlook crashes whenever I open an email with a large attachment."
+          },
+          "output": {
+            "is_duplicate_found": true,
+            "best_match": {
+              "id": "INC-1004",
+              "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+              "category": "Software",
+              "priority": "Medium",
+              "similarity_score": 0.8428
+            },
+            "top_matches": [
+              {
+                "id": "INC-1004",
+                "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8428
+              },
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.4884
+              },
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.4842
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "final_decision",
+          "reason": "Duplicate ticket found with a highly similar description and priority.",
+          "input": {
+            "status": "duplicate_linked",
+            "classification": {
+              "category": "Software",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": true,
+              "best_match": {
+                "id": "INC-1004",
+                "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.8428
+              },
+              "top_matches": [
+                {
+                  "id": "INC-1004",
+                  "text": "Microsoft Outlook closes unexpectedly when users open large email attachments.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.8428
+                },
+                {
+                  "id": "INC-1002",
+                  "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.4884
+                },
+                {
+                  "id": "INC-1009",
+                  "text": "Slack desktop application fails to launch and closes immediately.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.4842
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "action": "duplicate_route",
+            "category": "Software",
+            "priority": "Medium",
+            "duplicate_id": "INC-1004",
+            "escalation_reason": null
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-014",
+      "ticket_type": "false_duplicate",
+      "ticket_text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "Search returned multiple related tickets, but none perfectly match the reported symptom of VPN authentication failure. Ticket is complex and requires human investigation."
+      },
+      "expected": {
+        "category": "Account Access",
+        "priority": "High",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Ticket describes authentication failure related to VPN application.",
+          "input": {
+            "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected."
+          },
+          "output": {
+            "category": "Account Access",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Ticket is an Account Access issue with authentication failure, searching for similar open incidents.",
+          "input": {
+            "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1002",
+                "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.6765
+              },
+              {
+                "id": "INC-1001",
+                "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                "category": "Network",
+                "priority": "High",
+                "similarity_score": 0.606
+              },
+              {
+                "id": "INC-1006",
+                "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                "category": "Account Access",
+                "priority": "High",
+                "similarity_score": 0.5902
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "Search returned multiple related tickets, but none perfectly match the reported symptom of VPN authentication failure. Ticket is complex and requires human investigation.",
+          "input": {
+            "ticket_id": "EVAL-014",
+            "text": "My VPN application opens normally but I cannot log into it because my authentication credentials are rejected.",
+            "reason": "Search returned multiple related tickets, but none perfectly match the reported symptom of VPN authentication failure. Ticket is complex and requires human investigation.",
+            "proposed_classification": {
+              "category": "Account Access",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1002",
+                  "text": "Users are unable to log into GitHub Enterprise because authentication is failing.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.6765
+                },
+                {
+                  "id": "INC-1001",
+                  "text": "Multiple employees are unable to connect to the corporate VPN and cannot access internal resources.",
+                  "category": "Network",
+                  "priority": "High",
+                  "similarity_score": 0.606
+                },
+                {
+                  "id": "INC-1006",
+                  "text": "Employees cannot reset their company passwords because the password reset portal shows an error.",
+                  "category": "Account Access",
+                  "priority": "High",
+                  "similarity_score": 0.5902
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-3E882821",
+            "reason": "Search returned multiple related tickets, but none perfectly match the reported symptom of VPN authentication failure. Ticket is complex and requires human investigation.",
+            "ticket_id": "EVAL-014",
+            "timestamp": "2026-08-29T11:37:56.680007+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_id": "EVAL-015",
+      "ticket_type": "false_duplicate",
+      "ticket_text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+      "status": "escalated",
+      "predicted": {
+        "action": "escalate",
+        "category": null,
+        "priority": null,
+        "duplicate_id": null,
+        "escalation_reason": "High similarity to hardware issue INC-1010, but the problem is within a remote desktop application. Requires investigation beyond standard software troubleshooting."
+      },
+      "expected": {
+        "category": "Software",
+        "priority": "Medium",
+        "expected_duplicate": false,
+        "duplicate_of": null,
+        "expected_escalation": false
+      },
+      "correctness": {
+        "category_correct": null,
+        "priority_correct": null,
+        "exact_classification_correct": null,
+        "duplicate_correct": true,
+        "escalation_correct": false
+      },
+      "trajectory": [
+        {
+          "step_number": 1,
+          "action": "classify_ticket",
+          "reason": "Specific issue with remote desktop application functionality.",
+          "input": {
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register."
+          },
+          "output": {
+            "category": "Software",
+            "priority": "Medium"
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "search_duplicate_tickets",
+          "reason": "Medium priority software issue; check for similar reports.",
+          "input": {
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register."
+          },
+          "output": {
+            "is_duplicate_found": false,
+            "best_match": null,
+            "top_matches": [
+              {
+                "id": "INC-1010",
+                "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                "category": "Hardware",
+                "priority": "Low",
+                "similarity_score": 0.7374
+              },
+              {
+                "id": "INC-1009",
+                "text": "Slack desktop application fails to launch and closes immediately.",
+                "category": "Software",
+                "priority": "Medium",
+                "similarity_score": 0.5212
+              },
+              {
+                "id": "INC-1003",
+                "text": "Several laptops are not powering on after the latest office power outage.",
+                "category": "Hardware",
+                "priority": "High",
+                "similarity_score": 0.5087
+              }
+            ],
+            "threshold_used": 0.8
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "escalate_to_human",
+          "reason": "High similarity to hardware issue INC-1010, but the problem is within a remote desktop application. Requires investigation beyond standard software troubleshooting.",
+          "input": {
+            "ticket_id": "EVAL-015",
+            "text": "My laptop keyboard works, but the keys inside the remote desktop application do not register.",
+            "reason": "High similarity to hardware issue INC-1010, but the problem is within a remote desktop application. Requires investigation beyond standard software troubleshooting.",
+            "proposed_classification": {
+              "category": "Software",
+              "priority": "Medium"
+            },
+            "duplicate_info": {
+              "is_duplicate_found": false,
+              "best_match": null,
+              "top_matches": [
+                {
+                  "id": "INC-1010",
+                  "text": "A user's laptop keyboard has several keys that are no longer responding.",
+                  "category": "Hardware",
+                  "priority": "Low",
+                  "similarity_score": 0.7374
+                },
+                {
+                  "id": "INC-1009",
+                  "text": "Slack desktop application fails to launch and closes immediately.",
+                  "category": "Software",
+                  "priority": "Medium",
+                  "similarity_score": 0.5212
+                },
+                {
+                  "id": "INC-1003",
+                  "text": "Several laptops are not powering on after the latest office power outage.",
+                  "category": "Hardware",
+                  "priority": "High",
+                  "similarity_score": 0.5087
+                }
+              ],
+              "threshold_used": 0.8
+            }
+          },
+          "output": {
+            "status": "escalated",
+            "escalation_id": "ESC-260E17DB",
+            "reason": "High similarity to hardware issue INC-1010, but the problem is within a remote desktop application. Requires investigation beyond standard software troubleshooting.",
+            "ticket_id": "EVAL-015",
+            "timestamp": "2026-08-29T11:38:12.429016+00:00"
+          }
+        }
+      ]
+    }
+  ]
+}

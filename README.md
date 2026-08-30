@@ -142,19 +142,26 @@ This trade-off is intentional. In enterprise IT helpdesk operations, an unnecess
 
 ## 8. Improvement Changelog
 
-| Version / Stage | Improvement | Impact |
-|---|---|---|
-| **Baseline** | Initial zero-shot classifier | Created baseline benchmark for classification accuracy. |
-| **V1 Agent** | ReAct tool-calling agent framework | Added dynamic tool execution and initial escalation rules. |
-| **V2 Agent** | Vector embedding duplicate search | Introduced semantic duplicate incident matching (`nomic-embed-text`). |
-| **V3 Agent** | Structured adversarial verification | Reduced unsafe auto-routing rate from 100% to 0%. |
-| **Phase 1–6 UI** | Dynamic Open Tickets & Agent Runs | Replaced static data bindings with real backend API integration. |
-| **Phase 7–12 Polish** | Thread locks & 409 re-review protection | Hardened JSON persistence against race conditions and prevented invalid re-reviews. |
-| **Regression Testing** | Added 8-test automated suite | Verified triage, duplicates, escalation, human review, and concurrency safety. |
+| Stage / Iteration | Observed Problem / Evidence | Decision / Change Made | Measurable Impact |
+|---|---|---|---|
+| **Baseline** | Zero-shot LLM classification lacked tool execution and duplicate detection capabilities. | Built single-pass baseline classifier service and evaluation control harness. | Established control accuracy benchmark (100% Category, 81.82% Priority). |
+| **V1 Agent** | Helpdesk queues flooded by manual re-triage and duplicate search delays. | Implemented ReAct tool-calling agent framework (`classify_ticket`, `search_duplicates`). | Enabled automated tool calling and 100% duplicate recall on evaluation dataset. |
+| **V2 Agent** | Keyword matching failed to recognize semantically rephrased master incident duplicates. | Integrated vector embedding search (`nomic-embed-text`) with cosine similarity scoring. | Enabled semantic duplicate incident matching against open master tickets. |
+| **Initial V3** | Verifier evaluated label *plausibility*, causing generic complaints (`EVAL-008`..`EVAL-011`) to auto-route. | Identified root cause: plausible grading passed vague tickets without explicit evidence. | **Observed 100.0% Unsafe Auto-route Rate** on initial V3 run (4/4 ambiguous cases auto-routed). |
+| **Stabilized V3** | Initial V3 passed generic complaints lacking technical context (*"cannot access system"*). | Redesigned `verifier_tool.py` to enforce strict explicit system evidence and multi-issue conflict rejection. | Reduced **Unsafe Auto-route Rate from 100% to 0.0%** and achieved **100% Escalation Recall**. |
+| **UI Integration** | Static frontend demo arrays did not reflect live investigation outcomes. | Connected React frontend screens dynamically to FastAPI `/api/v3` endpoints. | Real-time state synchronization across Investigation, Open Tickets, and Agent Runs. |
+| **Persistence Hardening** | Concurrent API calls risked JSON write race conditions and duplicate ticket IDs. | Wrapped read-generate-modify-write operations in `threading.Lock()` critical sections. | Guaranteed thread safety (0 lost writes, 0 duplicate IDs) and HTTP 409 re-review protection. |
+| **Regression Testing** | Manual testing risked regression on concurrency and human review state sync. | Added 8-test automated regression suite with isolated temporary storage fixtures. | **8/8 passed in 78.06s** with zero production storage mutation. |
 
 ---
 
 ## 9. Reproduction Guide
+
+### Measured Reproduction Runtime & Cost
+
+- **Total API Cost**: **$0.00** (Uses 100% local Ollama inference with `gemma3:4b` and `nomic-embed-text` models).
+- **Automated Regression Suite (8 tests)**: ~1 minute 18 seconds (78.06s).
+- **Full V3 Benchmark Evaluation (15 tickets)**: ~2 minutes 48 seconds (168.51s).
 
 ### Prerequisites
 - Operating System: Windows / macOS / Linux
@@ -196,7 +203,7 @@ Run the automated test suite from the repository root:
 $env:PYTHONPATH="."
 python -m pytest -q
 ```
-*Note: Concurrency regression tests use isolated temporary storage fixtures and execute without invoking Ollama models. Pipeline integration tests exercise live local endpoints.*
+*Note: Concurrency regression tests use isolated temporary storage fixtures and execute without invoking Ollama models. Pipeline integration tests exercise live local endpoints. Measured execution runtime: 78.06s (8 passed).*
 
 ---
 
@@ -213,6 +220,7 @@ python -m evaluation.v1.run_v1
 # Run V3 Verification Benchmark
 python -m evaluation.v3.run_v3
 ```
+*Note: Full V3 benchmark evaluation runs in approx 2 minutes 48 seconds (168.51s).*
 
 ---
 

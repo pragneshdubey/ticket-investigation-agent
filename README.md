@@ -18,6 +18,9 @@ In traditional IT ticketing:
 ### Why Triage Needs Safety & Verification
 Automated ticket triage cannot rely solely on raw classification probabilities. When an incoming ticket is vague, lacks explicit system evidence, or describes conflicting multi-issue failures, auto-routing is inherently unsafe. An AI triage assistant must possess observable verification logic and a real human-in-the-loop escalation mechanism to handle uncertain cases safely.
 
+### Originality & Pre-existing Assets Disclosure
+**Pre-existing assets/design**: The frontend visual design was based on a pre-existing Figma design. The component implementation, application behavior, backend integration, API integration, agent workflow, testing, safety mechanisms, and persistence changes were developed or modified during the hackathon.
+
 ---
 
 ## 2. What the System Does

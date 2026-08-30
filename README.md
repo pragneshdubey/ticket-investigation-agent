@@ -175,17 +175,14 @@ This trade-off is intentional. In enterprise IT helpdesk operations, an unnecess
   ```
 
 ### Environment Configuration
-The project is pre-configured to run 100% locally out of the box using Ollama, requiring **zero cloud API keys** for default operation.
+The application runs **100% locally out-of-the-box using Ollama** and requires **zero API keys** or `.env` files for default execution.
 
-1. **Copy Environment Template**:
-   ```bash
-   cp .env.example .env
-   # Or on Windows PowerShell:
-   copy .env.example .env
-   ```
-2. **Variable Classification**:
-   - **Required Defaults (Pre-configured)**: `OLLAMA_BASE_URL` (`http://localhost:11434`), `OLLAMA_MODEL` (`gemma3:4b`), `OLLAMA_EMBED_MODEL` (`nomic-embed-text`), `BACKEND_PORT` (`8000`), `FRONTEND_PORT` (`8443`).
-   - **Optional Extensions**: `GEMINI_API_KEY` and `GEMINI_MODEL` (only needed if explicitly testing optional cloud LLM fallback providers; NOT required for local evaluation or hackathon demo).
+- **`.env` File**: **OPTIONAL**. Creating a `.env` file is NOT required to run the default project setup.
+- **API Keys**: **NONE REQUIRED** ($0 API cost using local inference).
+- **Configuration Template**: `.env.example` is provided strictly as an optional reference for users wishing to customize local ports or server URLs.
+- **Required Local Models**:
+  - `gemma3:4b` (Used for classification and structured adversarial verification passes)
+  - `nomic-embed-text` (Used for vector embedding duplicate search)
 
 ### A. Application Setup & Startup
 
